@@ -1,1 +1,1 @@
-Restore DataBase QuanLyMyPham and conect with project
+Restore DataBase QuanLyMyPham and connect with project
