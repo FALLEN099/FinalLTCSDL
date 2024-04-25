@@ -48,9 +48,13 @@ namespace QLMP.Web.Controllers
         {
             QuanLyMyPhamContext context = new QuanLyMyPhamContext();
             var l = loaiSpSvc.Read(id);
-            context.Remove(l.Data);
-            context.SaveChanges();
-            return Ok(l);
+            if (l.Data != null)
+            {
+                context.Remove(l.Data);
+                context.SaveChanges();
+                return Ok(l);
+            }
+            return NotFound();
         }
         [HttpPost("SeachByName")]
         public IActionResult SeachByName(SearchCateByName searchCateByName)
