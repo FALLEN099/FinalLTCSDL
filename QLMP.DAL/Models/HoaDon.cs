@@ -15,7 +15,7 @@ namespace QLMP.DAL.Models
         public DateTime? NgayLapHd { get; set; }
         public decimal? TongSl { get; set; }
 
-        public virtual KhachhHangg? MaKhNavigation { get; set; }
+        public virtual KhachHang? MaKhNavigation { get; set; }
         public virtual ICollection<ChiTietHoaDon> ChiTietHoaDons { get; set; }
     }
 }

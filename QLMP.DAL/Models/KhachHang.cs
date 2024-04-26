@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace QLMP.DAL.Models
 {
-    public partial class KhachhHangg
+    public partial class KhachHang
     {
-        public KhachhHangg()
+        public KhachHang()
         {
             HoaDons = new HashSet<HoaDon>();
         }

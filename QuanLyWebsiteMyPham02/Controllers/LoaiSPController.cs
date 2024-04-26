@@ -12,9 +12,9 @@ namespace QLMP.Web.Controllers
     public class LoaiSPController : ControllerBase
     {
         private LoaiSpSvc loaiSpSvc;
-        public  LoaiSPController()
+        public LoaiSPController()
         {
-            loaiSpSvc =  new LoaiSpSvc();
+            loaiSpSvc = new LoaiSpSvc();
         }
         [HttpPost("GetById")]
         public IActionResult GetMaLoaiSP([FromBody] SimpleReq simpleReq)
@@ -38,9 +38,9 @@ namespace QLMP.Web.Controllers
             return Ok(res);
         }
         [HttpPut("Update")]
-        public IActionResult UpDate([FromBody] LoaiSpReq loaiSpReq)
+        public IActionResult UpDate(int Id, LoaiSpReq loaiSpReq)
         {
-            var res = loaiSpSvc.UpdateCategory(loaiSpReq);
+            var res = loaiSpSvc.UpdateCategory(Id,loaiSpReq);
             return Ok(res);
         }
         [HttpDelete("DeletaById")]
@@ -63,6 +63,6 @@ namespace QLMP.Web.Controllers
             res = loaiSpSvc.SearchCategory(searchCateByName);
             return Ok(res);
         }
-       
+
     }
 }

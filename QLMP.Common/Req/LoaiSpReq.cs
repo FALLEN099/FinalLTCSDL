@@ -8,7 +8,6 @@ namespace QLMP.Common.Req
 {
     public class LoaiSpReq
     {
-        public int MaLoaiSp { get; set; }
         public string? TenLoaiSp { get; set; }
     }
 }

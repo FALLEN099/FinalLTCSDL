@@ -19,7 +19,7 @@ namespace QLMP.DAL.Models
         public virtual DbSet<ChiTietHoaDon> ChiTietHoaDons { get; set; } = null!;
         public virtual DbSet<ConTact> ConTacts { get; set; } = null!;
         public virtual DbSet<HoaDon> HoaDons { get; set; } = null!;
-        public virtual DbSet<KhachhHangg> KhachhHanggs { get; set; } = null!;
+        public virtual DbSet<KhachHang> KhachHangs { get; set; } = null!;
         public virtual DbSet<LoaiSanPham> LoaiSanPhams { get; set; } = null!;
         public virtual DbSet<NhanVien> NhanViens { get; set; } = null!;
         public virtual DbSet<SanPham> SanPhams { get; set; } = null!;
@@ -29,6 +29,7 @@ namespace QLMP.DAL.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=QuanLyMyPham;Integrated Security=True");
             }
         }
@@ -38,7 +39,7 @@ namespace QLMP.DAL.Models
             modelBuilder.Entity<ChiTietHoaDon>(entity =>
             {
                 entity.HasKey(e => new { e.MaHoaDon, e.MaSp })
-                    .HasName("PK__ChiTietH__512C81BA931B3134");
+                    .HasName("PK__ChiTietH__512C81BAE51F8038");
 
                 entity.ToTable("ChiTietHoaDon");
 
@@ -76,8 +77,6 @@ namespace QLMP.DAL.Models
 
                 entity.ToTable("HoaDon");
 
-                entity.Property(e => e.MaHoaDon).ValueGeneratedNever();
-
                 entity.Property(e => e.MaKh).HasColumnName("MaKH");
 
                 entity.Property(e => e.NgayLapHd)
@@ -94,15 +93,14 @@ namespace QLMP.DAL.Models
                     .HasConstraintName("FK_HoaDon_KhachhHangg");
             });
 
-            modelBuilder.Entity<KhachhHangg>(entity =>
+            modelBuilder.Entity<KhachHang>(entity =>
             {
-                entity.HasKey(e => e.MaKh);
+                entity.HasKey(e => e.MaKh)
+                    .HasName("PK_KhachhHangg");
 
-                entity.ToTable("KhachhHangg");
+                entity.ToTable("KhachHang");
 
-                entity.Property(e => e.MaKh)
-                    .ValueGeneratedNever()
-                    .HasColumnName("MaKH");
+                entity.Property(e => e.MaKh).HasColumnName("MaKH");
 
                 entity.Property(e => e.DiaChi).HasMaxLength(100);
 
@@ -121,9 +119,7 @@ namespace QLMP.DAL.Models
 
                 entity.ToTable("LoaiSanPham");
 
-                entity.Property(e => e.MaLoaiSp)
-                    .ValueGeneratedNever()
-                    .HasColumnName("MaLoaiSP");
+                entity.Property(e => e.MaLoaiSp).HasColumnName("MaLoaiSP");
 
                 entity.Property(e => e.TenLoaiSp)
                     .HasMaxLength(255)
@@ -157,9 +153,7 @@ namespace QLMP.DAL.Models
 
                 entity.ToTable("SanPham");
 
-                entity.Property(e => e.MaSp)
-                    .ValueGeneratedNever()
-                    .HasColumnName("MaSP");
+                entity.Property(e => e.MaSp).HasColumnName("MaSP");
 
                 entity.Property(e => e.MaLoaiSp).HasColumnName("MaLoaiSP");
 

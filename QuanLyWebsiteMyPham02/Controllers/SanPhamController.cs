@@ -25,9 +25,9 @@ namespace QLMP.Web.Controllers
             return Ok(res);
         }
         [HttpPut("Update-Product")]
-        public IActionResult UpdateProduct([FromBody] SanPhamReq sanPhamReq)
+        public IActionResult UpdateProduct(int Id,SanPhamReq sanPhamReq)
         {
-            var res = sanPhamSvc.UpdateProduct(sanPhamReq);
+            var res = sanPhamSvc.UpdateProduct(Id,sanPhamReq);
             return Ok(res);
         }
         [HttpPost("create-product")]

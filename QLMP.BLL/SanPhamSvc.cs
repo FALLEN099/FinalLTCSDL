@@ -57,19 +57,22 @@ namespace QLMP.BLL
         {
             var res = new SingleRsp();
             SanPham sanPham = new SanPham();
-            sanPham.MaLoaiSp = sanPhamReq.MaLoaiSp;
             sanPham.TenSp = sanPhamReq.TenSp;
-            sanPham.Gia=sanPhamReq.Gia;
+            sanPham.Gia = sanPhamReq.Gia;
             sanPham.HinhAnh = sanPhamReq.HinhAnh;
-            return res=sanPhamRep.CreateProduct(sanPham);
+            return res = sanPhamRep.CreateProduct(sanPham);
         }
 
-        public SingleRsp UpdateProduct(SanPhamReq sanPhamReq)
+        public SingleRsp UpdateProduct(int Id,SanPhamReq sanPhamReq)
         {
             var res = new SingleRsp();
-
+            var existingCustomer = sanPhamRep.Read(Id);
+            if (existingCustomer == null)
+            {
+                res.SetError("Customer not found.");
+                return res;
+            }
             SanPham sanPham = new SanPham();
-            sanPham.MaLoaiSp = sanPhamReq.MaLoaiSp;
             sanPham.TenSp = sanPhamReq.TenSp;
             sanPham.Gia = sanPhamReq.Gia;
             sanPham.HinhAnh = sanPhamReq.HinhAnh;

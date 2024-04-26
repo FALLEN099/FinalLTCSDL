@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace QLMP.BLL
 {
     public class LoaiSpSvc : GenericSvc<LoaiSpRep, LoaiSanPham>
@@ -51,21 +52,22 @@ namespace QLMP.BLL
         public SingleRsp CreateCategory(LoaiSpReq loaiSpReq)
         {
             var res = new SingleRsp();
-            //Category category = new Category();
-            //category.CategoryName = categoryReq.CategoryName;
-            //category.Description = categoryReq.Description;
-            //res = categoryRep.CreateCategory(category);
-            LoaiSanPham l= new LoaiSanPham();
-            l.MaLoaiSp=loaiSpReq.MaLoaiSp;
-            l.TenLoaiSp=loaiSpReq.TenLoaiSp;
+          
+            LoaiSanPham l = new LoaiSanPham();
+            l.TenLoaiSp = loaiSpReq.TenLoaiSp;
             res = loaiSpRep.CreateCategory(l);
             return res;
         }
-        public SingleRsp UpdateCategory(LoaiSpReq loaiSpReq)
+        public SingleRsp UpdateCategory(int Id,LoaiSpReq loaiSpReq)
         {
             var res = new SingleRsp();
+            var existingCustomer = loaiSpRep.Read(Id);
+            if (existingCustomer == null)
+            {
+                res.SetError("Customer not found.");
+                return res;
+            }
             LoaiSanPham l = new LoaiSanPham();
-            l.MaLoaiSp = loaiSpReq.MaLoaiSp;
             l.TenLoaiSp = loaiSpReq.TenLoaiSp;
             res = loaiSpRep.UpdateCategory(l);
             return res;
