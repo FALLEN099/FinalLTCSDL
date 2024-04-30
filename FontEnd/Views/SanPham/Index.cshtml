@@ -24,6 +24,8 @@
                             <dd>@product.Gia</dd>
                             <dt>Loại sản phẩm:</dt>
                             <dd>@product.TenLoaiSp</dd>
+                            <dd>Tên Hình</dd>
+                            <dd>@product.Image</dd>
                         </dl>
                         <div class="action-buttons">
                          @*   <a class="btn custom-btn btn-sm" href="@Url.Action("Details", "SanPhams", new { id = product.MaSP })">
@@ -35,7 +37,9 @@
             </div>
             <div class="col-md-6">
                 <div class="card">
-                    <img class="card-img-top" src="@Url.Content("~/Images/" + product.HinhAnh)" alt="@product.TenSp">
+                  <img class="card-img-top" src="@Url.Content("~/" + product.Image)" alt="@product.Image">
+
+
                 </div>
             </div>
         </div>

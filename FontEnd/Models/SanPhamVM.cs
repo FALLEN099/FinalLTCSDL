@@ -6,7 +6,7 @@
         public string? TenSp { get; set; }
         public double? Gia { get; set; }
         public string TenLoaiSp { get; set; }
-        public string? HinhAnh { get; set; }
+        public string? Image { get; set; }
 
     }
 }
