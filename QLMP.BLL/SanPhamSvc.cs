@@ -23,7 +23,6 @@ namespace QLMP.BLL
         public override SingleRsp Read(int id)
         {
             var res = new SingleRsp();
-
             var m = _rep.Read(id);
             res.Data = m;
 

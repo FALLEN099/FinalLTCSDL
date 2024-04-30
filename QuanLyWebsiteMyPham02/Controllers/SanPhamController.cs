@@ -12,17 +12,27 @@ namespace QLMP.Web.Controllers
     public class SanPhamController : ControllerBase
     {
         private SanPhamSvc sanPhamSvc;
-
         public SanPhamController()
         {
             sanPhamSvc = new SanPhamSvc();
         }
-        [HttpPost("get-all")]
+        [HttpGet("get-all")]
         public IActionResult getAllProduct()
         {
             var res = new SingleRsp();
-            res.Data = sanPhamSvc.All;
+
+            // Assuming sanPhamSvc.All returns IEnumerable<SanPham>
+            var products = sanPhamSvc.All.Select(p => new
+            {
+                TenSp = p.TenSp,
+                Gia = p.Gia,
+                TenLoaiSp=p.MaLoaiSpNavigation.TenLoaiSp,
+                Image = p.HinhAnh // Assuming Image is a property representing the image
+            }).ToList();
+
+            res.Data = products;
             return Ok(res);
+
         }
         [HttpPut("Update-Product")]
         public IActionResult UpdateProduct(int Id,SanPhamReq sanPhamReq)

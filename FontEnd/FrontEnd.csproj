@@ -1,0 +1,106 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\Images\ChamDa1.jpg" />
+    <Content Remove="wwwroot\Images\ChamDa10.jpg" />
+    <Content Remove="wwwroot\Images\ChamDa11.jpg" />
+    <Content Remove="wwwroot\Images\ChamDa12.jpg" />
+    <Content Remove="wwwroot\Images\ChamDa2.jpg" />
+    <Content Remove="wwwroot\Images\ChamDa3.jpg" />
+    <Content Remove="wwwroot\Images\ChamDa4.jpg" />
+    <Content Remove="wwwroot\Images\ChamDa5.jpg" />
+    <Content Remove="wwwroot\Images\ChamDa6.jpg" />
+    <Content Remove="wwwroot\Images\ChamDa7.jpg" />
+    <Content Remove="wwwroot\Images\ChamDa8.jpg" />
+    <Content Remove="wwwroot\Images\ChamDa9.jpg" />
+    <Content Remove="wwwroot\Images\DangKy.jpg" />
+    <Content Remove="wwwroot\Images\Dangky1.jpg" />
+    <Content Remove="wwwroot\Images\DangNhap.jpg" />
+    <Content Remove="wwwroot\Images\DatHang.jpg" />
+    <Content Remove="wwwroot\Images\Thongtindathang.jpg" />
+    <Content Remove="wwwroot\Images\ToanThan1.jpg" />
+    <Content Remove="wwwroot\Images\ToanThan10.jpg" />
+    <Content Remove="wwwroot\Images\ToanThan11.jpg" />
+    <Content Remove="wwwroot\Images\ToanThan12.jpg" />
+    <Content Remove="wwwroot\Images\ToanThan2.jpg" />
+    <Content Remove="wwwroot\Images\ToanThan3.jpg" />
+    <Content Remove="wwwroot\Images\ToanThan4.jpg" />
+    <Content Remove="wwwroot\Images\ToanThan5.jpg" />
+    <Content Remove="wwwroot\Images\ToanThan6.jpg" />
+    <Content Remove="wwwroot\Images\ToanThan7.jpg" />
+    <Content Remove="wwwroot\Images\ToanThan8.jpg" />
+    <Content Remove="wwwroot\Images\ToanThan9.jpg" />
+    <Content Remove="wwwroot\Images\TrangDiem1.jpg" />
+    <Content Remove="wwwroot\Images\TrangDiem10.jpg" />
+    <Content Remove="wwwroot\Images\TrangDiem11.jpg" />
+    <Content Remove="wwwroot\Images\TrangDiem12.jpg" />
+    <Content Remove="wwwroot\Images\TrangDiem13.jpg" />
+    <Content Remove="wwwroot\Images\TrangDiem2.jpg" />
+    <Content Remove="wwwroot\Images\TrangDiem3.jpg" />
+    <Content Remove="wwwroot\Images\TrangDiem4.jpg" />
+    <Content Remove="wwwroot\Images\TrangDiem5.jpg" />
+    <Content Remove="wwwroot\Images\TrangDiem6.jpg" />
+    <Content Remove="wwwroot\Images\TrangDiem7.jpg" />
+    <Content Remove="wwwroot\Images\TrangDiem8.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\ChamDa1.jpg" />
+    <None Include="wwwroot\Images\ChamDa10.jpg" />
+    <None Include="wwwroot\Images\ChamDa11.jpg" />
+    <None Include="wwwroot\Images\ChamDa12.jpg" />
+    <None Include="wwwroot\Images\ChamDa2.jpg" />
+    <None Include="wwwroot\Images\ChamDa3.jpg" />
+    <None Include="wwwroot\Images\ChamDa4.jpg" />
+    <None Include="wwwroot\Images\ChamDa5.jpg" />
+    <None Include="wwwroot\Images\ChamDa6.jpg" />
+    <None Include="wwwroot\Images\ChamDa7.jpg" />
+    <None Include="wwwroot\Images\ChamDa8.jpg" />
+    <None Include="wwwroot\Images\ChamDa9.jpg" />
+    <None Include="wwwroot\Images\DangKy.jpg" />
+    <None Include="wwwroot\Images\Dangky1.jpg" />
+    <None Include="wwwroot\Images\DangNhap.jpg" />
+    <None Include="wwwroot\Images\DatHang.jpg" />
+    <None Include="wwwroot\Images\Thongtindathang.jpg" />
+    <None Include="wwwroot\Images\ToanThan1.jpg" />
+    <None Include="wwwroot\Images\ToanThan10.jpg" />
+    <None Include="wwwroot\Images\ToanThan11.jpg" />
+    <None Include="wwwroot\Images\ToanThan12.jpg" />
+    <None Include="wwwroot\Images\ToanThan2.jpg" />
+    <None Include="wwwroot\Images\ToanThan3.jpg" />
+    <None Include="wwwroot\Images\ToanThan4.jpg" />
+    <None Include="wwwroot\Images\ToanThan5.jpg" />
+    <None Include="wwwroot\Images\ToanThan6.jpg" />
+    <None Include="wwwroot\Images\ToanThan7.jpg" />
+    <None Include="wwwroot\Images\ToanThan8.jpg" />
+    <None Include="wwwroot\Images\ToanThan9.jpg" />
+    <None Include="wwwroot\Images\TrangDiem1.jpg" />
+    <None Include="wwwroot\Images\TrangDiem10.jpg" />
+    <None Include="wwwroot\Images\TrangDiem11.jpg" />
+    <None Include="wwwroot\Images\TrangDiem12.jpg" />
+    <None Include="wwwroot\Images\TrangDiem13.jpg" />
+    <None Include="wwwroot\Images\TrangDiem2.jpg" />
+    <None Include="wwwroot\Images\TrangDiem3.jpg" />
+    <None Include="wwwroot\Images\TrangDiem4.jpg" />
+    <None Include="wwwroot\Images\TrangDiem5.jpg" />
+    <None Include="wwwroot\Images\TrangDiem6.jpg" />
+    <None Include="wwwroot\Images\TrangDiem7.jpg" />
+    <None Include="wwwroot\Images\TrangDiem8.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\QLMP.Common\QLMP.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+</Project>

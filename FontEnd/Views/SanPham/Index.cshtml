@@ -1,0 +1,44 @@
+﻿@using System.IO
+@model List<FrontEnd.Models.SanPhamVM>
+
+<link rel="stylesheet" href="~/Content/PagedList.css" />
+
+@{
+    ViewData["Title"] = "Danh sách sản phẩm";
+}
+
+<h1 class="text-center">Danh sách sản phẩm</h1>
+
+<div class="container">
+    @foreach (var product in Model)
+    {
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">CHI TIẾT SẢN PHẨM</h5>
+                        <dl class="dl-horizontal">
+                            <dt>Tên sản phẩm:</dt>
+                            <dd>@product.TenSp</dd>
+                            <dt>Giá sản phẩm:</dt>
+                            <dd>@product.Gia</dd>
+                            <dt>Loại sản phẩm:</dt>
+                            <dd>@product.TenLoaiSp</dd>
+                        </dl>
+                        <div class="action-buttons">
+                         @*   <a class="btn custom-btn btn-sm" href="@Url.Action("Details", "SanPhams", new { id = product.MaSP })">
+                                Chi tiết sản phẩm
+                            </a>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <img class="card-img-top" src="@Url.Content("~/Images/" + product.HinhAnh)" alt="@product.TenSp">
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

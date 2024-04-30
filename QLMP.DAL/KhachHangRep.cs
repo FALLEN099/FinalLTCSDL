@@ -1,6 +1,5 @@
 ﻿using QLMP.Common.DAL;
 using QLMP.Common.Rsp;
-
 using QLMP.DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -19,7 +18,6 @@ namespace QLMP.DAL
         public override KhachHang Read(int id)
         {
             var res = All.FirstOrDefault(c => c.MaKh == id);
-
             return res;
         }
         public int Remove(int id)
