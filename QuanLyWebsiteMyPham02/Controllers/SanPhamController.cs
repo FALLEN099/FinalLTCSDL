@@ -24,6 +24,7 @@ namespace QLMP.Web.Controllers
             // Assuming sanPhamSvc.All returns IEnumerable<SanPham>
             var products = sanPhamSvc.All.Select(p => new
             {
+                MaSp=p.MaSp,
                 TenSp = p.TenSp,
                 Gia = p.Gia,
                 TenLoaiSp=p.MaLoaiSpNavigation.TenLoaiSp,

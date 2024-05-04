@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace QLMP.DAL.Models
 {
+   
     public partial class QuanLyMyPhamContext : DbContext
     {
         public QuanLyMyPhamContext()
