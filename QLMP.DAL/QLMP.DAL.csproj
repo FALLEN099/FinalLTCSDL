@@ -20,8 +20,4 @@
     <ProjectReference Include="..\QLMP.Common\QLMP.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>

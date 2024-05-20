@@ -35,12 +35,14 @@ namespace QLMP.Web.Controllers
         {
             var res = new SingleRsp();
             res = loaiSpSvc.CreateCategory(loaiSpReq);
+            res.Data = loaiSpReq;
             return Ok(res);
         }
         [HttpPut("Update")]
         public IActionResult UpDate(int Id, LoaiSpReq loaiSpReq)
         {
             var res = loaiSpSvc.UpdateCategory(Id,loaiSpReq);
+            res.Data=loaiSpReq;
             return Ok(res);
         }
         [HttpDelete("DeletaById")]

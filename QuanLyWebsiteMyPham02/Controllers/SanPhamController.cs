@@ -39,12 +39,14 @@ namespace QLMP.Web.Controllers
         public IActionResult UpdateProduct(int Id,SanPhamReq sanPhamReq)
         {
             var res = sanPhamSvc.UpdateProduct(Id,sanPhamReq);
+            res.Data = sanPhamReq;
             return Ok(res);
         }
         [HttpPost("create-product")]
         public IActionResult CreateProduct([FromBody] SanPhamReq sanPhamReq)
         {
             var res = sanPhamSvc.CreateProduct(sanPhamReq);
+            res.Data = sanPhamReq;
             return Ok(res);
         }
         [HttpPost("search-product")]
