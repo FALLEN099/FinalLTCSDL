@@ -67,6 +67,7 @@ namespace QLMP.DAL
                 _context.SaveChanges();
             }
         }
+
         public SingleRsp CreateUser(User user)
         {
             var res = new SingleRsp();
@@ -89,5 +90,10 @@ namespace QLMP.DAL
             }
             return res;
         }
+        public bool ExistsUserName(string username, int id)
+        {
+            return _context.Users.Any(u => u.UserName == username && u.Id != id);
+        }
+
     }
 }

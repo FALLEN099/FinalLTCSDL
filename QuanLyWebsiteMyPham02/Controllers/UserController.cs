@@ -59,13 +59,13 @@ namespace QLMP.Web.Controllers
             res.Data = model;
             return Ok(res);
         }
-        [HttpGet]
+        [HttpGet("GetAllUser")]
         public IActionResult GetAllUsersExceptAdmin()
         {
             var res = _userSvc.GetAllUsersExceptAdmin();
             return Ok(res);
         }
-        [HttpGet("Seach  By username")]
+        [HttpGet("SeachByusername")]
         public IActionResult GetUserByUsername(string username)
         {
             var user = _userSvc.GetUserByUserName(username);
@@ -114,13 +114,13 @@ namespace QLMP.Web.Controllers
         }
 
 
-        [HttpDelete("{id}")]
-        public IActionResult DeleteUser(int id)
+        [HttpDelete("DeleteUserById/{id}")]
+        public IActionResult DeleteUserById(int id)
         {
             try
             {
                 _userSvc.DeleteUser(id);
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -133,7 +133,7 @@ namespace QLMP.Web.Controllers
             try
             {
                 _userSvc.DeleteUserByUserName(username);
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {

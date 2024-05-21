@@ -29,6 +29,12 @@ namespace QLMP.BLL
         public SingleRsp CreateUser(UserReq userReq)
         {
             var res = new SingleRsp();
+            if (string.IsNullOrWhiteSpace(userReq.UserName))
+            {
+                res.SetError("Username cannot be empty or whitespace.");
+                return res;
+            }
+
             var existingUser = userRep.GetByUserName(userReq.UserName);
 
             if (existingUser != null)
@@ -51,7 +57,7 @@ namespace QLMP.BLL
             return res = userRep.CreateUser(user);
         }
 
-        
+
         public SingleRsp UpdateUser(int id, UserReq userReq)
         {
             var res = new SingleRsp();
@@ -61,26 +67,14 @@ namespace QLMP.BLL
                 res.SetError("User not found.");
                 return res;
             }
-
-            existingUser.UserName = userReq.UserName ?? existingUser.UserName;
-            if (!string.IsNullOrEmpty(userReq.PassWord))
+            if (!string.IsNullOrEmpty(userReq.UserName) && string.IsNullOrWhiteSpace(userReq.UserName))
             {
-                existingUser.PassWord = userReq.PassWord; 
+                res.SetError("Username cannot be empty or whitespace.");
+                return res;
             }
-            existingUser.FullName = userReq.FullName ?? existingUser.FullName;
-            existingUser.Email = userReq.Email ?? existingUser.Email;
-            existingUser.Phone = userReq.Phone ?? existingUser.Phone;
-            existingUser.Address = userReq.Address ?? existingUser.Address;
-
-            return userRep.UpdateUser(existingUser);
-        }
-        public SingleRsp UpdateUserByUserName(string username, UserReq userReq)
-        {
-            var res = new SingleRsp();
-            var existingUser = userRep.GetByUserName(username);
-            if (existingUser == null)
+            if (userRep.ExistsUserName(userReq.UserName, id))
             {
-                res.SetError("User not found.");
+                res.SetError("Username already exists.");
                 return res;
             }
 
@@ -96,6 +90,41 @@ namespace QLMP.BLL
 
             return userRep.UpdateUser(existingUser);
         }
+
+        public SingleRsp UpdateUserByUserName(string username, UserReq userReq)
+        {
+            var res = new SingleRsp();
+            var existingUser = userRep.GetByUserName(username);
+            if (existingUser == null)
+            {
+                res.SetError("User not found.");
+                return res;
+            }
+            if (!string.IsNullOrEmpty(userReq.UserName) && string.IsNullOrWhiteSpace(userReq.UserName))
+            {
+                res.SetError("Username cannot be empty or whitespace.");
+                return res;
+            }
+
+            if (userRep.ExistsUserName(userReq.UserName, existingUser.Id))
+            {
+                res.SetError("Username already exists.");
+                return res;
+            }
+
+            existingUser.UserName = userReq.UserName ?? existingUser.UserName;
+            if (!string.IsNullOrEmpty(userReq.PassWord))
+            {
+                existingUser.PassWord = userReq.PassWord;
+            }
+            existingUser.FullName = userReq.FullName ?? existingUser.FullName;
+            existingUser.Email = userReq.Email ?? existingUser.Email;
+            existingUser.Phone = userReq.Phone ?? existingUser.Phone;
+            existingUser.Address = userReq.Address ?? existingUser.Address;
+
+            return userRep.UpdateUser(existingUser);
+        }
+
         public void DeleteUser(int id)
         {
             userRep.Delete(id);
