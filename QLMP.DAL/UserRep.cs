@@ -5,21 +5,21 @@ using System.Linq;
 
 namespace QLMP.DAL
 {
-    public class UserRep : GenericRep<QuanLyMyPhamContext, User1>
+    public class UserRep : GenericRep<QuanLyMyPhamContext, User>
     {
-        public override User1 Read(int id)
+        public override User Read(int id)
         {
             var res = All.FirstOrDefault(u => u.Id == id);
             return res;
         }
 
-        public User1 Read(string username)
+        public User Read(string username)
         {
-            var res = All.FirstOrDefault(u => u.UserName == username);
+            var res =All.FirstOrDefault(u=>u.UserName == username);
             return res;
         }
 
-        public SingleRsp CreateUser(User1 user)
+        public SingleRsp CreateUser(User user)
         {
             var res = new SingleRsp();
             using (var context = new QuanLyMyPhamContext())
@@ -28,7 +28,7 @@ namespace QLMP.DAL
                 {
                     try
                     {
-                        context.Users1.Add(user);
+                        context.Users.Add(user);
                         context.SaveChanges();
                         tran.Commit();
                     }

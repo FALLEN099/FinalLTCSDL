@@ -6,7 +6,7 @@ using QLMP.Common.BLL;
 
 namespace QLMP.BLL
 {
-    public class UserSvc : GenericSvc<UserRep, User1>
+    public class UserSvc : GenericSvc<UserRep, User>
     {
         private UserRep userRep;
 
@@ -18,7 +18,7 @@ namespace QLMP.BLL
         public SingleRsp CreateUser(UserReq userReq)
         {
             var res = new SingleRsp();
-            var user = new User1
+            var user = new User
             {
                 UserName = userReq.UserName,
                 PassWord = userReq.PassWord,

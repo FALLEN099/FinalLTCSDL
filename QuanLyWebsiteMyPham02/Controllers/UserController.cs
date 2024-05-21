@@ -39,7 +39,7 @@ namespace QLMP.Web.Controllers
                 return Ok(res);
             }
 
-            var user = (User1)res.Data;
+            var user = (User)res.Data;
             var token = GenerateToken(user);
             var response = new SingleRsp();
             response.Data=token;
@@ -60,7 +60,7 @@ namespace QLMP.Web.Controllers
             return Ok(res);
         }
 
-        private string GenerateToken(User1 user)
+        private string GenerateToken(User user)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
             var secretKeyBytes = Encoding.UTF8.GetBytes(_jwtSettings.securitykey);
