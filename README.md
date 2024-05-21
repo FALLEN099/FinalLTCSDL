@@ -1,1 +1,1 @@
-Restore DataBase QuanLyMyPham and connect with project
+Rename  QuanLyMyPham to .bak Restore DataBase QuanLyMyPham and connect with project
