@@ -59,7 +59,87 @@ namespace QLMP.Web.Controllers
             res.Data = model;
             return Ok(res);
         }
+        [HttpGet]
+        public IActionResult GetAllUsersExceptAdmin()
+        {
+            var res = _userSvc.GetAllUsersExceptAdmin();
+            return Ok(res);
+        }
+        [HttpGet("Seach  By username")]
+        public IActionResult GetUserByUsername(string username)
+        {
+            var user = _userSvc.GetUserByUserName(username);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+        [HttpPut("UpdateById")]
+        public IActionResult UpdateUser(int id, [FromBody] UserReq userReq)
+        {
+            if (userReq == null)
+            {
+                return BadRequest("Invalid user data.");
+            }
 
+            var res = _userSvc.UpdateUser(id, userReq);
+            res.Data = userReq;
+            return Ok(res);
+          
+        }
+
+        [HttpPut("UpdateByUsername")]
+        public IActionResult UpdateUserByUsername(string username, [FromBody] UserReq userReq)
+        {
+            if (userReq == null)
+            {
+                return BadRequest("Invalid user data.");
+            }
+
+            var res = _userSvc.UpdateUserByUserName(username, userReq);
+            res.Data = userReq;
+            return Ok(res);
+        }
+        [HttpPut("UpdateUserRoleByUsername")]
+        public IActionResult UpdateUserRoleByUsername(string username, [FromBody] string role)
+        {
+            if (string.IsNullOrEmpty(role))
+            {
+                return BadRequest("Invalid role.");
+            }
+
+            var res = _userSvc.UpdateUserRoleByUserName(username, role);
+            return Ok(res);
+        }
+
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteUser(int id)
+        {
+            try
+            {
+                _userSvc.DeleteUser(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        [HttpDelete("DeleteByUsername")]
+        public IActionResult DeleteUserByUsername(string username)
+        {
+            try
+            {
+                _userSvc.DeleteUserByUserName(username);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
         private string GenerateToken(User user)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
