@@ -59,6 +59,7 @@ namespace QLMP.BLL
             sanPham.TenSp = sanPhamReq.TenSp;
             sanPham.Gia = sanPhamReq.Gia;
             sanPham.HinhAnh = sanPhamReq.HinhAnh;
+            sanPham.MaLoaiSp = sanPhamReq.MaLoaiSp;
             return res = sanPhamRep.CreateProduct(sanPham);
         }
 
