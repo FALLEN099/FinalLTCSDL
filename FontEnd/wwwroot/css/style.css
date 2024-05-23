@@ -1,4 +1,4 @@
-/*Color Variables*/
+﻿/*Color Variables*/
 
 
 /* sss */
@@ -601,7 +601,7 @@ ul {
     border: 1px solid #ecfdff;
     font-size: 15px;
     font-weight: 700;
-    color: #fff;
+    color: black;
     text-transform: uppercase;
     font-weight: 400;
     box-shadow: -1.717px 8.835px 29.76px 2.24px rgba(255, 51, 104, 0.18);
@@ -6735,6 +6735,7 @@ ul {
     display: block;
     width: 100%;
     margin: 30px 0 17px;
+    color: black;
 }
 
 
@@ -6745,6 +6746,11 @@ ul {
     text-align: right;
     float: right;
     text-transform: capitalize;
+}
+
+.navbar-nav:hover .nav-item {
+    color: blue;
+    background: blue;
 }
 
 
@@ -9620,6 +9626,9 @@ h6 {
         justify-content: flex-start !important;
     }
 }
+
+
+
 
 
 /*# sourceMappingURL=style.css.map */

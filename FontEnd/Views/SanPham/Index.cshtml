@@ -1,48 +1,439 @@
 ﻿@using System.IO
 @model List<FrontEnd.Models.SanPhamVM>
 
-<link rel="stylesheet" href="~/Content/PagedList.css" />
+<!doctype html>
+<html>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Website Bán Mỹ Phẩm</title>
+    <link rel="icon" href="img/favicon.png">
+    <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+    <!-- animate CSS -->
+<link rel="stylesheet" href="./css/animate.css">
+    <!-- owl carousel CSS -->
+<link rel="stylesheet" href="./css/owl.carousel.min.css">
+    <!-- font awesome CSS -->
+<link rel="stylesheet" href="./css/all.css">
+    <!-- flaticon CSS -->
+<link rel="stylesheet" href="./css/flaticon.css">
+<link rel="stylesheet" href="./css/themify-icons.css">
+    <!-- font awesome CSS -->
+<link rel="stylesheet" href="./css/magnific-popup.css">
+    <!-- swiper CSS -->
+<link rel="stylesheet" href="./css/slick.css">
+    <!-- style CSS -->
+<link rel="stylesheet" href="./css/style.css">
 
-@{
-    ViewData["Title"] = "Danh sách sản phẩm";
-}
+<body>
+    <!--::header part start::-->
+    <header class="main_menu home_menu">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <a class="navbar-brand" href="index.html"> <img src="../wwwroot/Images/images.png" alt="logo"> </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="menu_icon"><i class="fas fa-bars"></i></span>
+                        </button>
 
-<h1 class="text-center">Danh sách sản phẩm</h1>
+                        <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="Home">Trang Chủ</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="Product"> Sản Phẩm</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="Login"> Đăng Nhập</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="Contact">Liên Hệ</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="HomeAdmin">Admin</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="hearer_icon d-flex">
+                            <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
+                            <a href=""><i class="ti-heart"></i></a>
+                            <div class="dropdown cart">
+                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-cart-plus"></i>
+                                </a>
+                                <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <div class="single_product">
 
-<div class="container">
-    @foreach (var product in Model)
-    {
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">CHI TIẾT SẢN PHẨM</h5>
-                        <dl class="dl-horizontal">
-                            <dt>Tên sản phẩm:</dt>
-                            <dd>@product.TenSp</dd>
-                            <dt>Giá sản phẩm:</dt>
-                            <dd>@product.Gia</dd>
-                            <dt>Loại sản phẩm:</dt>
-                            <dd>@product.TenLoaiSp</dd>
-                            <dd>Tên Hình</dd>
-                            <dd>@product.Image</dd>
-                        </dl>
-                        <div class="action-buttons">
-                         @*   <a class="btn custom-btn btn-sm" href="@Url.Action("Details", "SanPhams", new { id = product.MaSP })">
-                                Chi tiết sản phẩm
-                            </a>*@
+                                    </div>
+                                </div> -->
+
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="search_input" id="search_input_box">
+            <div class="container ">
+                <form class="d-flex justify-content-between search-inner">
+                    <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+                    <button type="submit" class="btn"></button>
+                    <span class="ti-close" id="close_search" title="Close Search"></span>
+                </form>
+            </div>
+        </div>
+    </header>
+    <!-- Header part end-->
+    <!-- banner part start-->
+    <section class="banner_part">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <div class="banner_slider owl-carousel">
+                        <div class="single_banner_slider">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-8">
+                                    <div class="banner_text">
+                                        <div class="banner_text_iner">
+                                            <h2>
+                                                Serum Vaseline Gluta-Hya 330 ML
+                                            </h2>
+                                            <p>
+                                                Làm mờ các vết tối màu, đồng thời làm sáng và cải thiện tông màu da tức thì
+                                            </p>
+                                            <a href="GioHang" class="btn_2">Đặt Hàng Ngay</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="banner_img d-none d-lg-block">
+                                    <img style="max-width: 50%; float: right;" src="./Images/ToanThan2.jpg" alt="">
+                                </div>
+                            </div>
+                        </div><div class="single_banner_slider">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-8">
+                                    <div class="banner_text">
+                                        <div class="banner_text_iner">
+                                            <h2>
+                                                Tinh Chất Estee Lauder Advanced Night Repair 100ml
+                                            </h2>
+                                            <p>
+                                                chứa thành phần lên men có khả năng cung cấp độ ẩm, chống lão hóa, 
+                                                thúc đẩy quá trình phục hồi và tái tạo da, đem lại làn da đều màu, mịn màng và tươi sáng hơn.
+                                            </p>
+                                            <a href="GioHang" class="btn_2">Đặt Hàng Ngay</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="banner_img d-none d-lg-block">
+                                    <img style="max-width: 50%; float: right;" src="./Images/ChamDa12.jpg" alt="">
+                                </div>
+                            </div>
+                        </div><div class="single_banner_slider">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-8">
+                                    <div class="banner_text">
+                                        <div class="banner_text_iner">
+                                            <h2>
+                                                Son thỏi Shu Uemura Rouge Unlimited Kinu Matte
+                                            </h2>
+                                            <p>
+                                                Được làm thủ công từ bàn tay tỉ mỉ của những nghệ nhân nhật bản, 
+                                                chất son nhẹ như lông vũ, mịn mướt như lụa, tạo cảm giác quyến rũ khó cưỡng cho làn môi, 
+                                                đánh thức mọi giác quan trong bạn.
+                                            </p>
+                                            <a href="GioHang" class="btn_2">Đặt Hàng Ngay</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="banner_img d-none d-lg-block">
+                                    <img style="max-width: 50%; float: right;" src="./Images/TrangDiem5.jpg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="single_banner_slider">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-8">
+                                    <div class="banner_text">
+                                        <div class="banner_text_iner">
+                                            <h1>Cloth $ Wood Sofa</h1>
+                                            <p>Incididunt ut labore et dolore magna aliqua quis ipsum
+                                                suspendisse ultrices gravida. Risus commodo viverra</p>
+                                            <a href="#" class="btn_2">buy now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="banner_img d-none d-lg-block">
+                                    <img src="img/banner_img.png" alt="">
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="slider-counter"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- banner part start-->
+    <!-- product_list start-->
+<section class="product_list section_padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="section_tittle text-center">
+                    <h2>Sản Phẩm</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="product_list_slider owl-carousel">
+                    @foreach (var product in Model)
+                    {
+                        <div class="single_product_list_slider">
+                            <div class="row align-items-center justify-content-between">
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="single_product_item">
+                                        <img src="@Url.Content("~/" + product.Image)" alt="@product.TenSp">
+                                        <div class="single_product_text">
+                                            <h4>@product.TenSp</h4>
+                                            <h3>@product.Gia</h3>
+                                            <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- product_list part start-->
+    <!-- awesome_shop start-->
+   
+    <!-- awesome_shop part start-->
+    <!-- product_list part start-->
+    <section class="product_list best_seller section_padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="section_tittle text-center">
+                        <h2>Bán Chạy</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center justify-content-between">
+                <div class="col-lg-12">
+                    <div class="best_product_slider owl-carousel">
+                        <div class="single_product_item">
+                            <img src="./Images/TrangDiem2.jpg" alt="">
+                            <div class="single_product_text">
+                                <h4>Son Kem FOIF Daily Velvet Tint</h4>
+                                <h3>140.000đ</h3>
+                            </div>
+                        </div>
+                        <div class="single_product_item">
+                            <img src="./Images/TrangDiem3.jpg" alt="">
+                            <div class="single_product_text">
+                                <h4>Phấn Má Hồng Etude House Blusher</h4>
+                                <h3>110.000đ</h3>
+                            </div>
+                        </div>
+                        <div class="single_product_item">
+                            <img src="./Images/ToanThan8.jpg" alt="">
+                            <div class="single_product_text">
+                                <h4>Tẩy Da Chết Dove Body Scrub</h4>
+                                <h3>160.000đ</h3>
+                            </div>
+                        </div>
+                        <div class="single_product_item">
+                            <img src="./Images/ToanThan3.jpg" alt="">
+                            <div class="single_product_text">
+                                <h4>Kem Dưỡng Bioderma Cicabio</h4>
+                                <h3>220.000đ</h3>
+                            </div>
+                        </div>
+                        <div class="single_product_item">
+                            <img src="./Images/ChamDa1.jpg" alt="">
+                            <div class="single_product_text">
+                                <h4>Mặt Mạ Yuejin Repair Control</h4>
+                                <h3>18.000đ</h3>
+                            </div>
+                        </div>
+                        <div class="single_product_item">
+                            <img src="./Images/ChamDa5.jpg" alt="">
+                            <div class="single_product_text">
+                                <h4>Kem Chống Nắng PrettySkin Scream</h4>
+                                <h3>170.000đ</h3>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="card">
-                  <img class="card-img-top" src="@Url.Content("~/" + product.Image)" alt="@product.Image">
-
-
+        </div>
+    </section>
+    <!-- product_list part end-->
+    <!-- subscribe_area part start-->
+    <section class="client_logo padding_top">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <div class="single_client_logo">
+                        <img src="img/client_logo/client_logo_1.png" alt="">
+                    </div>
+                    <div class="single_client_logo">
+                        <img src="img/client_logo/client_logo_2.png" alt="">
+                    </div>
+                    <div class="single_client_logo">
+                        <img src="img/client_logo/client_logo_3.png" alt="">
+                    </div>
+                    <div class="single_client_logo">
+                        <img src="img/client_logo/client_logo_4.png" alt="">
+                    </div>
+                    <div class="single_client_logo">
+                        <img src="img/client_logo/client_logo_5.png" alt="">
+                    </div>
+                    <div class="single_client_logo">
+                        <img src="img/client_logo/client_logo_3.png" alt="">
+                    </div>
+                    <div class="single_client_logo">
+                        <img src="img/client_logo/client_logo_1.png" alt="">
+                    </div>
+                    <div class="single_client_logo">
+                        <img src="img/client_logo/client_logo_2.png" alt="">
+                    </div>
+                    <div class="single_client_logo">
+                        <img src="img/client_logo/client_logo_3.png" alt="">
+                    </div>
+                    <div class="single_client_logo">
+                        <img src="img/client_logo/client_logo_4.png" alt="">
+                    </div>
                 </div>
             </div>
         </div>
-    }
-</div>
+    </section>
+    <!--::subscribe_area part end::-->
+    <!--::footer_part start::-->
+    <footer class="footer_part">
+        <div class="container">
+            <div class="row justify-content-around">
+                <div class="col-sm-6 col-lg-2">
+                    <div class="single_footer_part">
+                        <h4>Hỗ Trợ Khách Hàng</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="">Hotline: 1800 1234</a></li>
+                            <li><a href="">Các Câu Hỏi Thường Gặp</a></li>
+                            <li><a href="">Hướng Dẫn Đặt Hàng</a></li>
+                            <li><a href="">Chính Sách Đổi Trả</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <div class="single_footer_part">
+                        <h4>Về Website Bán Mỹ Phẩm</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="">Giới Thiệu</a></li>
+                            <li><a href="">Tuyển Dụng</a></li>
+                            <li><a href="">Chính Sách Bảo Mật</a></li>
+                            <li><a href="">Điều Khoản Sử Dụng</a></li>
+                            <li><a href="">Liên Hệ</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <div class="single_footer_part">
+                        <h4>Hợp Tác Và Liên Kết</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="">https://</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="single_footer_part">
+                        <h4>Cập Nhật Thông Tin Mới Nhất</h4>
+
+                        <div id="mc_embed_signup">
+                            <form target="_blank"
+                                  action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                                  method="get" class="subscribe_form relative mail_part">
+                                <input type="email" name="email" id="newsletter-form-email" placeholder="Địa Chỉ Email"
+                                       class="placeholder hide-on-focus" onfocus="this.placeholder = ''"
+                                       onblur="this.placeholder = ' Địa Chỉ Email '">
+                                <button type="submit" name="submit" id="newsletter-submit"
+                                        class="email_icon newsletter-submit button-contactForm">
+                                    Đăng Ký
+                                </button>
+                                <div class="mt-10 info"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="copyright_part">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="copyright_text">
+                            <P>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </P>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="footer_icon social_icon">
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="single_social_icon"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#" class="single_social_icon"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#" class="single_social_icon"><i class="fas fa-globe"></i></a></li>
+                                <li><a href="#" class="single_social_icon"><i class="fab fa-behance"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--::footer_part end::-->
+    <!-- jquery plugins here-->
+    <script src="js/jquery-1.12.1.min.js"></script>
+    <!-- popper js -->
+    <script src="js/popper.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- easing js -->
+    <script src="js/jquery.magnific-popup.js"></script>
+    <!-- swiper js -->
+    <script src="js/swiper.min.js"></script>
+    <!-- swiper js -->
+    <script src="js/masonry.pkgd.js"></script>
+    <!-- particles js -->
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <!-- slick js -->
+    <script src="js/slick.min.js"></script>
+    <script src="js/jquery.counterup.min.js"></script>
+    <script src="js/waypoints.min.js"></script>
+    <script src="js/contact.js"></script>
+    <script src="js/jquery.ajaxchimp.min.js"></script>
+    <script src="js/jquery.form.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/mail-script.js"></script>
+    <!-- custom js -->
+    <script src="js/custom.js"></script>
+</body>
+
+</html>
 

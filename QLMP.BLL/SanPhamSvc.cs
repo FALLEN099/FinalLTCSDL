@@ -97,6 +97,17 @@ namespace QLMP.BLL
             res.Data = p;
             return res;
         }
-
+        public SingleRsp SearchProductByCategoryName(string categoryName)
+        {
+            var res = new SingleRsp();
+            var sanPhams = sanPhamRep.SearchProductByCategoryName(categoryName);
+            if (sanPhams == null)
+            {
+                res.SetError("CatagoryName not found.");
+                return res;
+            }
+            res.Data = sanPhams;
+            return res;
+        }
     }
 }

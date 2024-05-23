@@ -78,6 +78,11 @@ namespace QLMP.DAL
         {
             return All.Where(x => x.TenSp.Contains(keyword)).ToList();
         }
+        public List<SanPham> SearchProductByCategoryName(string categoryName)
+        {
+            return All.Where(x => x.MaLoaiSpNavigation.TenLoaiSp.Contains(categoryName)).ToList();
+        }
+
         #endregion
     }
 }

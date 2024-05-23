@@ -56,6 +56,12 @@ namespace QLMP.Web.Controllers
             res = sanPhamSvc.SearchProduct(searchProductReq);
             return Ok(res);
         }
+        [HttpGet("search-by-category-name")]
+        public IActionResult SearchProductByCategoryName(string categoryName)
+        {
+            var res = sanPhamSvc.SearchProductByCategoryName(categoryName);
+            return Ok(res);
+        }
         [HttpDelete("Delete-Product")]
         public IActionResult DeleteProduct(int id)
         {
