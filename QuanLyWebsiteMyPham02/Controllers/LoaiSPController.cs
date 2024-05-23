@@ -17,10 +17,10 @@ namespace QLMP.Web.Controllers
             loaiSpSvc = new LoaiSpSvc();
         }
         [HttpPost("GetById")]
-        public IActionResult GetMaLoaiSP([FromBody] SimpleReq simpleReq)
+        public IActionResult GetMaLoaiSP(/*[FromBody] SimpleReq simpleReq*/ int id)
         {
             var res = new SingleRsp();
-            res = loaiSpSvc.Read(simpleReq.Id);
+            res = loaiSpSvc.Read(id);
             return Ok(res);
         }
         [HttpPost("GetAll")]

@@ -24,6 +24,7 @@ namespace QLMP.DAL
         {
             return _context.Users.Find(id);
         }
+
         public User GetByUserName(string username)
         {
             return _context.Users.FirstOrDefault(u => u.UserName == username);

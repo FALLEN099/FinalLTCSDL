@@ -65,11 +65,12 @@ namespace QLMP.BLL
             if (existingCustomer == null)
             {
                 res.SetError("Customer not found.");
-                return res;
             }
-            LoaiSanPham l = new LoaiSanPham();
-            l.TenLoaiSp = loaiSpReq.TenLoaiSp;
-            res = loaiSpRep.UpdateCategory(l);
+            else
+            {
+                existingCustomer.TenLoaiSp = loaiSpReq.TenLoaiSp;
+                res = loaiSpRep.UpdateCategory(existingCustomer);
+            }    
             return res;
         }
         public SingleRsp SearchCategory(SearchCateByName searchCateByName)

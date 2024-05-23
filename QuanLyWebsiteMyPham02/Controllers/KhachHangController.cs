@@ -18,9 +18,9 @@ namespace QLMP.Web.Controllers
         }
 
         [HttpPost("GetById")]
-        public IActionResult GetKhachHangById([FromBody] SimpleReq simpleReq)
+        public IActionResult GetKhachHangById(/*[FromBody] SimpleReq simpleReq*/ int id)
         {
-            var res = khachHangSvc.Read(simpleReq.Id);
+            var res = khachHangSvc.Read(id);
             return Ok(res);
         }
 
