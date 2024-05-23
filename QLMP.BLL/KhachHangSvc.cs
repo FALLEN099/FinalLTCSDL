@@ -79,7 +79,7 @@ namespace QLMP.BLL
             if (existingCustomer == null)
             {
                 res.SetError("Customer not found.");
-                
+
             }
             else
             {
@@ -90,6 +90,7 @@ namespace QLMP.BLL
                 res = khachHangRep.UpdateCustomer(existingCustomer);
             }
             return res;
+        
         }
 
         public SingleRsp SearchCustomer(string keyword)

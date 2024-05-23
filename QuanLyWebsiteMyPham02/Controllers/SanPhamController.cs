@@ -16,6 +16,13 @@ namespace QLMP.Web.Controllers
         {
             sanPhamSvc = new SanPhamSvc();
         }
+        [HttpGet("GetById")]
+        public IActionResult GetById( int id)
+        {
+            var res = new SingleRsp();
+            res = sanPhamSvc.Read(id);
+            return Ok(res);
+        }
         [HttpGet("get-all")]
         public IActionResult getAllProduct()
         {

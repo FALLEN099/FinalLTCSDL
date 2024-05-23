@@ -54,19 +54,21 @@ namespace QLMP.DAL
             var res = new SingleRsp();
             using (var context = new QuanLyMyPhamContext())
             {
-
                 using var tran = context.Database.BeginTransaction();
-                try
                 {
-                    var p = context.SanPhams.Update(sanPham);
-                    context.SaveChanges();
-                    tran.Commit();
+                    try
+                    {
+                        var p = context.SanPhams.Update(sanPham);
+                        context.SaveChanges();
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        res.SetError(ex.StackTrace);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    tran.Rollback();
-                    res.SetError(ex.StackTrace);
-                }
+               
             }
             return res;
         }

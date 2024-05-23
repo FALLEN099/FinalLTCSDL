@@ -70,13 +70,16 @@ namespace QLMP.BLL
             if (existingCustomer == null)
             {
                 res.SetError("Customer not found.");
-                return res;
             }
-            SanPham sanPham = new SanPham();
-            sanPham.TenSp = sanPhamReq.TenSp;
-            sanPham.Gia = sanPhamReq.Gia;
-            sanPham.HinhAnh = sanPhamReq.HinhAnh;
-            return res = sanPhamRep.UpdateProduct(sanPham);
+            else
+            {
+
+                existingCustomer.TenSp = sanPhamReq.TenSp;
+                existingCustomer.Gia = sanPhamReq.Gia;
+                existingCustomer.HinhAnh = sanPhamReq.HinhAnh;
+                res = sanPhamRep.UpdateProduct(existingCustomer);
+            }
+            return res;
         }
 
         public SingleRsp SearchProduct(SearchProductReq searchProductReq)

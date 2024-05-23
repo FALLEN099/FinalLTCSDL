@@ -61,16 +61,16 @@ namespace QLMP.BLL
         public SingleRsp UpdateCategory(int Id,LoaiSpReq loaiSpReq)
         {
             var res = new SingleRsp();
-            var existingCustomer = loaiSpRep.Read(Id);
-            if (existingCustomer == null)
+            var existingCategory = loaiSpRep.Read(Id);
+            if (existingCategory == null)
             {
                 res.SetError("Customer not found.");
             }
             else
             {
-                existingCustomer.TenLoaiSp = loaiSpReq.TenLoaiSp;
-                res = loaiSpRep.UpdateCategory(existingCustomer);
-            }    
+                existingCategory.TenLoaiSp = loaiSpReq.TenLoaiSp;   
+                res = loaiSpRep.UpdateCategory(existingCategory);
+            }
             return res;
         }
         public SingleRsp SearchCategory(SearchCateByName searchCateByName)
