@@ -7,6 +7,7 @@ namespace QLMP.DAL.Models
     {
         public SanPham()
         {
+            CartItems = new HashSet<CartItem>();
             ChiTietHoaDons = new HashSet<ChiTietHoaDon>();
         }
 
@@ -17,6 +18,7 @@ namespace QLMP.DAL.Models
         public string? HinhAnh { get; set; }
 
         public virtual LoaiSanPham? MaLoaiSpNavigation { get; set; }
+        public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual ICollection<ChiTietHoaDon> ChiTietHoaDons { get; set; }
     }
 }

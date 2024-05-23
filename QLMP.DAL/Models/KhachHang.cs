@@ -7,6 +7,7 @@ namespace QLMP.DAL.Models
     {
         public KhachHang()
         {
+            Carts = new HashSet<Cart>();
             HoaDons = new HashSet<HoaDon>();
         }
 
@@ -16,6 +17,7 @@ namespace QLMP.DAL.Models
         public string? Email { get; set; }
         public int? Sdt { get; set; }
 
+        public virtual ICollection<Cart> Carts { get; set; }
         public virtual ICollection<HoaDon> HoaDons { get; set; }
     }
 }

@@ -16,6 +16,8 @@ namespace QLMP.DAL.Models
         {
         }
 
+        public virtual DbSet<Cart> Carts { get; set; } = null!;
+        public virtual DbSet<CartItem> CartItems { get; set; } = null!;
         public virtual DbSet<ChiTietHoaDon> ChiTietHoaDons { get; set; } = null!;
         public virtual DbSet<ConTact> ConTacts { get; set; } = null!;
         public virtual DbSet<HoaDon> HoaDons { get; set; } = null!;
@@ -25,7 +27,6 @@ namespace QLMP.DAL.Models
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<SanPham> SanPhams { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
- 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,6 +39,34 @@ namespace QLMP.DAL.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Cart>(entity =>
+            {
+                entity.ToTable("Cart");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Carts)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Cart_User");
+            });
+
+            modelBuilder.Entity<CartItem>(entity =>
+            {
+                entity.ToTable("CartItem");
+
+                entity.HasOne(d => d.Cart)
+                    .WithMany(p => p.CartItems)
+                    .HasForeignKey(d => d.CartId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CartItem_Cart");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.CartItems)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CartItem_Product");
+            });
+
             modelBuilder.Entity<ChiTietHoaDon>(entity =>
             {
                 entity.HasKey(e => new { e.MaHoaDon, e.MaSp })
@@ -180,21 +209,32 @@ namespace QLMP.DAL.Models
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.HasKey(e => new { e.Id, e.Role })
+                    .HasName("PK__Users__DFB5B8144E8AE2BC");
+
                 entity.ToTable("User");
 
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
-                entity.Property(e => e.Address).HasMaxLength(250);
+                entity.Property(e => e.Role).HasMaxLength(50);
 
-                entity.Property(e => e.Email).HasMaxLength(50);
+                entity.Property(e => e.Address).HasMaxLength(255);
 
-                entity.Property(e => e.FullName).HasMaxLength(50);
+                entity.Property(e => e.Email).HasMaxLength(255);
 
-                entity.Property(e => e.PassWord).HasMaxLength(50);
+                entity.Property(e => e.FullName).HasMaxLength(255);
 
-                entity.Property(e => e.Phone).HasMaxLength(20);
+                entity.Property(e => e.PassWord).HasMaxLength(255);
 
-                entity.Property(e => e.UserName).HasMaxLength(50);
+                entity.Property(e => e.Phone).HasMaxLength(50);
+
+                entity.Property(e => e.UserName).HasMaxLength(255);
+
+                entity.HasOne(d => d.RoleNavigation)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.Role)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_User_Role");
             });
 
             OnModelCreatingPartial(modelBuilder);
