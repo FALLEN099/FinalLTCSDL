@@ -28,6 +28,7 @@ namespace QLMP.BLL
             {
                 cart = new Cart { UserId = userId };
                 cartRep.Create(cart);
+                cart = cartRep.GetCartByUserId(userId); // Ensure the cart is reloaded with an ID
             }
 
             var cartItem = cartRep.AddItemToCart(cart.Id, productId, quantity);
@@ -75,5 +76,6 @@ namespace QLMP.BLL
             return res;
         }
     }
+
 }
 

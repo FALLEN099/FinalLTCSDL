@@ -51,7 +51,7 @@ namespace QLMP.DAL
 
         public void Delete(int id)
         {
-            var user = _context.Users.Find(id);
+            var user = _context.Users.FirstOrDefault(u=>u.Id==id);
             if (user != null)
             {
                 _context.Users.Remove(user);
