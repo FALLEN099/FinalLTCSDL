@@ -79,14 +79,16 @@ namespace QLMP.BLL
             if (existingCustomer == null)
             {
                 res.SetError("Customer not found.");
-                return res;
+                
             }
-            KhachHang kh = new KhachHang();
-            kh.TenKh = khachHangReq.TenKh;
-            kh.DiaChi = khachHangReq.DiaChi;
-            kh.Email = khachHangReq.Email;
-            kh.Sdt = khachHangReq.Sdt;
-            res = khachHangRep.UpdateCustomer(kh);
+            else
+            {
+                existingCustomer.TenKh = khachHangReq.TenKh;
+                existingCustomer.DiaChi = khachHangReq.DiaChi;
+                existingCustomer.Email = khachHangReq.Email;
+                existingCustomer.Sdt = khachHangReq.Sdt;
+                res = khachHangRep.UpdateCustomer(existingCustomer);
+            }
             return res;
         }
 

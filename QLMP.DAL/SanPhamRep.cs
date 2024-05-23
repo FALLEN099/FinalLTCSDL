@@ -34,19 +34,17 @@ namespace QLMP.DAL
             var res = new SingleRsp();
             using (var context = new QuanLyMyPhamContext())
             {
-                using (var tran = context.Database.BeginTransaction())
+                using var tran = context.Database.BeginTransaction();
+                try
                 {
-                    try
-                    {
-                        var p = context.SanPhams.Add(sanPham);
-                        context.SaveChanges();
-                        tran.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        tran.Rollback();
-                        res.SetError(ex.StackTrace);
-                    }
+                    var p = context.SanPhams.Add(sanPham);
+                    context.SaveChanges();
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    res.SetError(ex.StackTrace);
                 }
             }
             return res;
@@ -57,19 +55,17 @@ namespace QLMP.DAL
             using (var context = new QuanLyMyPhamContext())
             {
 
-                using (var tran = context.Database.BeginTransaction())
+                using var tran = context.Database.BeginTransaction();
+                try
                 {
-                    try
-                    {
-                        var p = context.SanPhams.Update(sanPham);
-                        context.SaveChanges();
-                        tran.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        tran.Rollback();
-                        res.SetError(ex.StackTrace);
-                    }
+                    var p = context.SanPhams.Update(sanPham);
+                    context.SaveChanges();
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    res.SetError(ex.StackTrace);
                 }
             }
             return res;

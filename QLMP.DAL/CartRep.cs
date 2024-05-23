@@ -29,7 +29,11 @@ namespace QLMP.DAL
         #endregion
         public Cart GetCartByUserId(int userId)
         {
-             return All.Include(c => c.CartItems).ThenInclude(i => i.Product).FirstOrDefault(c => c.UserId == userId);
+            var cart = All.Include(c => c.CartItems)
+                 .ThenInclude(i => i.Product)
+                 .FirstOrDefault(c => c.UserId == userId);
+
+            return cart ?? throw new Exception("Cart not found for the given user ID."); /* cart == null tương đương cart ??*/
         }
 
         public CartItem AddItemToCart(int cartId, int productId, int quantity)
@@ -58,27 +62,11 @@ namespace QLMP.DAL
             else
             {
                 throw new Exception("Không tìm thấy giỏ hàng với ID đã cung cấp.");
-                //cart = new Cart(); // Assuming Cart is your cart model/class
-                //cartItem = new CartItem
-                //{
-                //    CartId = cartId,
-                //    ProductId = productId,
-                //    Quantity = quantity
-                //};
-                //cart.CartItems.Add(cartItem);
             }
-
-
         }
-
         public CartItem UpdateItemQuantity(int cartId, int productId, int quantity)
         {
-            var cart = All.FirstOrDefault(p => p.Id == cartId);
-            if (cart == null)
-            {
-                throw new Exception("Không tìm thấy giỏ hàng với ID đã cung cấp.");
-                return null;
-            }
+            var cart = All.FirstOrDefault(p => p.Id == cartId) ?? throw new Exception("Không tìm thấy giỏ hàng với ID đã cung cấp.");
             var cartItem = cart.CartItems.FirstOrDefault(i => i.ProductId == productId);
             if (cartItem != null)
             {
