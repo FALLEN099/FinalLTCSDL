@@ -11,37 +11,36 @@ namespace QLMP.Web.Controllers
     public class CartController : ControllerBase
     {
         private CartSvc cartSvc;
-
         public CartController()
         {
             cartSvc = new CartSvc();
         }
 
-        [HttpPost("add-item")]
-        public IActionResult AddItemToCart(int userId, int productId, int quantity)
+        [HttpPost("add-product")]
+        public IActionResult AddProductToCart(int userId, int productId, int quantity)
         {
-            var res = cartSvc.AddItemToCart(userId, productId, quantity);
+            var res = cartSvc.AddProductToCart(userId, productId, quantity);
             return Ok(res);
         }
 
-        [HttpPost("update-item-quantity")]
-        public IActionResult UpdateItemQuantity(int userId, int productId, int quantity)
+        [HttpPost("place-order")]
+        public IActionResult PlaceOrder(int cartId)
         {
-            var res = cartSvc.UpdateItemQuantity(userId, productId, quantity);
+            var res = cartSvc.PlaceOrder(cartId);
             return Ok(res);
         }
 
-        [HttpDelete("remove-item")]
-        public IActionResult RemoveItemFromCart(int userId, int productId)
+        [HttpGet("get-cart-by-id")]
+        public IActionResult GetCartById(int cartId)
         {
-            var res = cartSvc.RemoveItemFromCart(userId, productId);
+            var res = cartSvc.GetCartById(cartId);
             return Ok(res);
         }
 
-        [HttpGet("get-cart")]
-        public IActionResult GetCartByUserId(int userId)
+        [HttpDelete("remove-product")]
+        public IActionResult RemoveProductFromCart(int cartItemId)
         {
-            var res = cartSvc.GetCartByUserId(userId);
+            var res = cartSvc.RemoveProductFromCart(cartItemId);
             return Ok(res);
         }
     }

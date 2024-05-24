@@ -1,96 +1,179 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QLMP.DAL.Models;
-using QLMP.Common.Rsp;
+﻿using Microsoft.EntityFrameworkCore;
 using QLMP.Common.DAL;
-using Microsoft.EntityFrameworkCore;
+using QLMP.Common.Rsp;
+using QLMP.DAL.Models;
+using System.Linq;
 
 namespace QLMP.DAL
 {
     public class CartRep : GenericRep<QuanLyMyPhamContext, Cart>
     {
         #region -- Overrides --
+
         public override Cart Read(int id)
         {
             var res = All.FirstOrDefault(p => p.Id == id);
             return res;
         }
 
-        public int Remove(int id)
-        {
-            var m = base.All.First(i => i.Id == id);
-            m = base.Delete(m);
-            return m.Id;
-        }
-
         #endregion
+
+        #region -- Methods --
         public Cart GetCartByUserId(int userId)
         {
             var cart = All.Include(c => c.CartItems)
                  .ThenInclude(i => i.Product)
                  .FirstOrDefault(c => c.UserId == userId);
 
-            return cart ?? throw new Exception("Cart not found for the given user ID."); /* cart == null tương đương cart ??*/
+            return cart; /*?? throw new Exception("Cart not found for the given user ID."); /* cart == null tương đương cart ??*/
         }
-
-        public CartItem AddItemToCart(int cartId, int productId, int quantity)
+        public SingleRsp AddProductToCart(int cartId, int productId, int quantity)
         {
-            var cart = All.FirstOrDefault(p => p.Id == cartId);
-            CartItem cartItem;
-            if (cart!= null)
+            var res = new SingleRsp();
+            using (var context = new QuanLyMyPhamContext())
             {
-                cartItem = cart.CartItems.FirstOrDefault(i => i.ProductId == productId);
-                if(cartItem != null)
-                    cartItem.Quantity += quantity;
-                else
+                using var tran = context.Database.BeginTransaction();
+                try
                 {
-                    cartItem = new CartItem
+                    var cartItem = new CartItem
                     {
                         CartId = cartId,
                         ProductId = productId,
                         Quantity = quantity
                     };
-                    cart.CartItems.Add(cartItem);
+                    context.CartItems.Add(cartItem);
+                    context.SaveChanges();
+                    tran.Commit();
                 }
-
-                Context.SaveChanges();
-                return cartItem;
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    res.SetError(ex.StackTrace);
+                }
             }
-            else
-            {
-                throw new Exception("Không tìm thấy giỏ hàng với ID đã cung cấp.");
-            }
+            return res;
         }
-        public CartItem UpdateItemQuantity(int cartId, int productId, int quantity)
+
+        public SingleRsp PlaceOrder(int cartId)
         {
-            var cart = All.FirstOrDefault(p => p.Id == cartId) ?? throw new Exception("Không tìm thấy giỏ hàng với ID đã cung cấp.");
-            var cartItem = cart.CartItems.FirstOrDefault(i => i.ProductId == productId);
-            if (cartItem != null)
+            var res = new SingleRsp();
+            using (var context = new QuanLyMyPhamContext())
             {
-                cartItem.Quantity = quantity;
-                Context.SaveChanges();
+                using var tran = context.Database.BeginTransaction();
+                try
+                {
+                    var cartItems = context.CartItems.Where(ci => ci.CartId == cartId).ToList();
+                    if (!cartItems.Any())
+                    {
+                        res.SetError("Cart is empty.");
+                        return res;
+                    }
+
+                    var h = new HoaDon();
+
+
+                    h.MaKh = context.Carts.FirstOrDefault(c=>c.Id== cartId).UserId;
+                    h.NgayLapHd = DateTime.Now;
+                    h.TongSl = cartItems.Sum(ci => ci.Quantity);
+                    
+
+                    context.HoaDons.Add(h);
+                    context.SaveChanges();
+
+                    foreach (var item in cartItems)
+                    {
+                        var c = new ChiTietHoaDon();
+                        //{
+                        //    MaHoaDon = hoaDon.MaHoaDon,
+                        //    MaSp = item.ProductId,
+                        //    SoLuong = (short)item.Quantity,
+                        //    DonGia = (float?)context.SanPhams.First(sp => sp.MaSp == item.ProductId).Gia
+                        //};
+                            c.MaHoaDon = h.MaHoaDon;
+                            c.MaSp = item.ProductId;
+                            c.SoLuong = (short)item.Quantity;
+                            c.DonGia = (float?)context.SanPhams.First(sp => sp.MaSp == item.ProductId).Gia;
+
+                        context.ChiTietHoaDons.Add(c);
+                    }
+
+                    context.SaveChanges();
+                    context.CartItems.RemoveRange(cartItems);
+                    context.SaveChanges();
+
+                    tran.Commit();
+                    res.Data = h;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    res.SetError(ex.StackTrace);
+                }
             }
-
-            return cartItem;
+            return res;
         }
-
-        public bool RemoveItemFromCart(int cartId, int productId)
+        public SingleRsp GetCartById(int cartId)
         {
-            var cart = All.FirstOrDefault(p => p.Id == cartId);
-            var cartItem = cart.CartItems.FirstOrDefault(i => i.ProductId == productId);
-
-            if (cartItem != null)
+            var res = new SingleRsp();
+            using (var context = new QuanLyMyPhamContext())
             {
-                cart.CartItems.Remove(cartItem);
-                Context.SaveChanges();
-                return true;
-            }
+                var cart = context.Carts
+                    .Where(c => c.Id == cartId)
+                    .Select(c => new
+                    {
+                        c.Id,
+                        c.UserId,
+                        CartItems = c.CartItems.Select(ci => new
+                        {
+                            ci.Id,
+                            ci.ProductId,
+                            ci.Quantity,
+                            ProductName = ci.Product.TenSp,
+                            ProductPrice = ci.Product.Gia
+                        }).ToList()
+                    }).FirstOrDefault();
 
-            return false;
+                if (cart == null)
+                {
+                    res.SetError("Cart not found.");
+                }
+                else
+                {
+                    res.Data = cart;
+                }
+            }
+            return res;
         }
+
+        public SingleRsp RemoveProductFromCart(int cartItemId)
+        {
+            var res = new SingleRsp();
+            using (var context = new QuanLyMyPhamContext())
+            {
+                using var tran = context.Database.BeginTransaction();
+                try
+                {
+                    var cartItem = context.CartItems.FirstOrDefault(ci => ci.Id == cartItemId);
+                    if (cartItem == null)
+                    {
+                        res.SetError("Cart item not found.");
+                    }
+                    else
+                    {
+                        context.CartItems.Remove(cartItem);
+                        context.SaveChanges();
+                        tran.Commit();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    res.SetError(ex.StackTrace);
+                }
+            }
+            return res;
+        }
+
+        #endregion
     }
 }
-
