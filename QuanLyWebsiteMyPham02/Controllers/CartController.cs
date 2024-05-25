@@ -15,8 +15,18 @@ namespace QLMP.Web.Controllers
         {
             cartSvc = new CartSvc();
         }
-
-
+        [HttpGet("get-all-orders")]
+        public IActionResult GetAllOrders()
+        {
+            var res = cartSvc.GetAllOrders();
+            return Ok(res);
+        }
+        [HttpGet("get-order-by-id")]
+        public IActionResult GetOrderById(int orderId)
+        {
+            var res = cartSvc.GetOrderById(orderId);
+            return Ok(res);
+        }
         [HttpGet("sales-statistics-by-product-type")]
         public IActionResult GetSalesStatisticsByProductType()
         {

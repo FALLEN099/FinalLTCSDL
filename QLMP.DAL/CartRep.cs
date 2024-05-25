@@ -15,7 +15,7 @@ namespace QLMP.DAL
             var res = All.FirstOrDefault(p => p.Id == id);
             return res;
         }
-
+       
         #endregion
 
         #region -- Methods --
@@ -170,7 +170,66 @@ namespace QLMP.DAL
             }
             return res;
         }
+        public SingleRsp GetOrderById(int orderId)
+        {
+            var res = new SingleRsp();
+            using (var context = new QuanLyMyPhamContext())
+            {
+                var order = context.HoaDons
+                    .Where(o => o.MaHoaDon == orderId)
+                    .Select(o => new
+                    {
+                        o.MaHoaDon,
+                        o.MaKh,
+                        o.NgayLapHd,
+                        o.TongSl,
+                        OrderDetails = o.ChiTietHoaDons.Select(od => new
+                        {
+                            od.MaSp,
+                            od.SoLuong,
+                            od.DonGia,
+                            ProductName = od.MaSpNavigation.TenSp,
+                            CategoryName = od.MaSpNavigation.MaLoaiSpNavigation.TenLoaiSp
+                        }).ToList()
+                    }).FirstOrDefault();
 
+                if (order == null)
+                {
+                    res.SetError("Order not found.");
+                }
+                else
+                {
+                    res.Data = order;
+                }
+            }
+            return res;
+        }
+        public SingleRsp GetAllOrders()
+        {
+            var res = new SingleRsp();
+            using (var context = new QuanLyMyPhamContext())
+            {
+                var orders = context.HoaDons
+                    .Select(o => new
+                    {
+                        o.MaHoaDon,
+                        o.MaKh,
+                        o.NgayLapHd,
+                        o.TongSl,
+                        OrderDetails = o.ChiTietHoaDons.Select(od => new
+                        {
+                            od.MaSp,
+                            od.SoLuong,
+                            od.DonGia,
+                            ProductName = od.MaSpNavigation.TenSp,
+                            CategoryName = od.MaSpNavigation.MaLoaiSpNavigation.TenLoaiSp
+                        }).ToList()
+                    }).ToList();
+
+                res.Data = orders;
+            }
+            return res;
+        }
         public SingleRsp GetSalesStatisticsByProductType()
         {
             var res = new SingleRsp();
