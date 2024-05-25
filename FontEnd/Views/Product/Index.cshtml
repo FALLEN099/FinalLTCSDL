@@ -84,12 +84,10 @@
         </div>
         <div class="search_input" id="search_input_box">
             <div class="container ">
-                <form class="d-flex justify-content-between search-inner" id="searchForm">
-                    <input type="text" class="form-control" id="search_input" placeholder="Search Here">
-                    <button type="submit" class="btn">NHAP</button>
-                    <span class="ti-close" id="close_search" title="Close Search"></span>
+                <form class="d-flex justify-content-between search-inner" action="/Product/Search" method="get">
+                    <input type="text" class="form-control" name="productName" placeholder="Tìm sản phẩm">
+                    <button type="submit" class="btn">
                 </form>
-
             </div>
         </div>
     </header>
@@ -108,15 +106,12 @@
                                 <ul class="list">
                                     <li>
                                         <a href="@Url.Action("FilterByCategory", "Product", new { categoryName = "Trang Điểm" })">Trang Điểm</a>
-                                        <span>(20)</span>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("FilterByCategory", "Product", new { categoryName = "Chăm Sóc Da" })">Chăm Sóc Da</a>
-                                        <span>(20)</span>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("FilterByCategory", "Product", new { categoryName = "Chăm Sóc Toàn Thân" })">Chăm Sóc Toàn Thân</a>
-                                        <span>(20)</span>
                                     </li>
 
                                 </ul>
@@ -196,6 +191,7 @@
                                     <div class="single_product_text">
                                         <h4>@product.TenSp</h4>
                                         <h3>@product.Gia đ</h3>
+                                        <h3>@product.TenLoaiSp đ</h3>
                                         <a href="#" class="add_cart">+ thêm vào giỏ hàng<i class="ti-heart"></i></a>
                                     </div>
                                 </div>
@@ -315,22 +311,7 @@
         </div>
     </footer>
     <script>
-        document.getElementById("searchForm").addEventListener("submit", function (event) {
-            event.preventDefault(); // Ngăn chặn hành động mặc định của form
-            var searchTerm = document.getElementById("search_input").value;
-            searchProducts(searchTerm);
-        });
-
-        function searchProducts(searchTerm) {
-            fetch("/Product/Search?productName=" + searchTerm)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("searchResults").innerHTML = data;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
+       
     </script>
 
     <!--::footer_part end::-->

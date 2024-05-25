@@ -1,24 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Net.Http;
-using FontEnd.Models;
 using Newtonsoft.Json.Linq;
 using FrontEnd.Models;
-
 namespace FrontEnd.Controllers
 {
-    public class SanPhamController : Controller
+    public class AdminQLProductController : Controller
     {
         private readonly HttpClient _httpClient;
 
-        public SanPhamController()
+        public AdminQLProductController()
         {
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri("https://localhost:7279/api/");
         }
 
-        [HttpGet]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -42,5 +36,20 @@ namespace FrontEnd.Controllers
             return View(products);
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteProduct(string id)
+        {
+            HttpResponseMessage response = await _httpClient.DeleteAsync($"SanPham/Delete-Product?id={id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                // Xử lý lỗi
+                return StatusCode((int)response.StatusCode);
+            }
+        }
     }
 }

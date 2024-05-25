@@ -386,7 +386,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\QLMP.Common\QLMP.Common.csproj" />
-    <ProjectReference Include="..\QLMP.DAL\QLMP.DAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>

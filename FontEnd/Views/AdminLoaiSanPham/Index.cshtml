@@ -1,11 +1,11 @@
-﻿@model List<FrontEnd.Models.SanPhamVM>
+﻿@model List<FrontEnd.Models.LoaiSanPhamVM>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Hóa Đơn</title>
+    <title>Loại Sản Phẩm</title>
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="apple-touch-icon" sizes="76x76" href="./img-dashboard/apple-icon.png">
     <link rel="icon" type="image/png" href="./img-dashboard/favicon.png">
@@ -29,7 +29,7 @@
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html " target="_blank">
                 <img src="./img-dashboard/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
-                <span class="ms-1 font-weight-bold">Hóa Đơn</span>
+                <span class="ms-1 font-weight-bold">Loại Sản Phẩm</span>
             </a>
         </div>
         <hr class="horizontal dark mt-0">
@@ -125,7 +125,7 @@
         <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
             <div class="container-fluid py-1 px-3">
                 <nav aria-label="breadcrumb">
-                    <h6 class="font-weight-bolder mb-0">Hóa Đơn</h6>
+                    <h6 class="font-weight-bolder mb-0">Admin - Loại Sản phẩm</h6>
                 </nav>
                 <nav class="nav-item d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
@@ -135,8 +135,43 @@
                 </nav>
             </div>
         </nav>
-    <div class="container">
-       
-    </div>
+        <a href="@Url.Action("Index", "AdminAddProduct")" class="view-btn">Thêm</a>
+        <div class="container">
+            <header>
+                <h1>Quản Lý Sản Phẩm</h1>
+            </header>
+            <main>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Loại sản phẩm</th>
+                            <th>Số lượng sản phẩm</th>
+                            <th>Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model)
+                        {
+                            <tr>
+                                <td>@product.maLoaiSp</td>
+                                <td>@product.tenLoaiSp</td>
+                                <td>@product.sanPhams</td>
+                                <td>
+                                    <!-- Sử dụng JavaScript để chuyển hướng và truyền dữ liệu sản phẩm -->
+                                    <a href="@Url.Action("Index", "AdminLoaiSanPham", new { maSp = product.maLoaiSp })" class="view-btn">Sửa</a>
+                                    <!-- Thêm form để gửi yêu cầu xóa sản phẩm -->
+                                    <form method="post" action="@Url.Action("DeleteCateProduct", "AdminLoaiSanPham")">
+                                        @* Sử dụng input hidden để truyền mã sản phẩm *@
+                                        <input type="hidden" name="id" value="@product.maLoaiSp" />
+                                        <button type="submit" class="view-btn" style="background-color: red">Xóa</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </main>
+        </div>
 </body>
 </html>

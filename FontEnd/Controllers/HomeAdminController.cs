@@ -2,7 +2,7 @@
 
 namespace FrontEnd.Controllers
 {
-    public class UserAdminController : Controller
+    public class HomeAdminController : Controller
     {
         public IActionResult Index()
         {

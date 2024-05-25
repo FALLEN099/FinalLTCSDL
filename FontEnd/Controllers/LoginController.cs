@@ -1,34 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+﻿//using Microsoft.AspNetCore.Mvc;
+//using System;
+//using System.Net.Http;
+//using System.Text;
+//using System.Threading.Tasks;
+//using FrontEnd.Models; // Import namespace chứa model của sản phẩm
 
+//namespace FrontEnd.Controllers
+//{
+//    public class LoginController : Controller
+//    {
+//        private readonly HttpClient _httpClient;
 
-namespace FrontEnd.Controllers
-{
-    public class LoginController : Controller
-    {
-        [HttpGet]
-        public IActionResult Index()
-        {
-            return View();
-        }
+//        public LoginController()
+//        {
+//            _httpClient = new HttpClient();
+//            _httpClient.BaseAddress = new Uri("https://your-api-url.com/"); // Thay đổi URL API của bạn
+//        }
 
-        [HttpPost]
-        public IActionResult Index(string username, string password)
-        {
-            // Here you would typically authenticate the user
-            // For simplicity, I'm just checking if username and password are not empty
-            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
-            {
-                // Authentication successful, you can set a cookie or session to indicate the user is logged in
-                HttpContext.Session.SetString("Username", username);
-                return RedirectToAction("Index", "Home"); // Redirect to the home page after successful login
-            }
-            else
-            {
-                // Authentication failed, return the login view with an error message
-                ViewBag.Error = "Invalid username or password";
-                return View();
-            }
-        }
-    }
-}
+//        [HttpGet]
+//        public IActionResult Index()
+//        {
+//            return View();
+//        }
+//    }
+//}

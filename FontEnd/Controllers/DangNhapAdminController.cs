@@ -2,7 +2,7 @@
 
 namespace FrontEnd.Controllers
 {
-    public class QuanLySanPhamController : Controller
+    public class DangNhapAdminController : Controller
     {
         public IActionResult Index()
         {
