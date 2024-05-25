@@ -61,6 +61,7 @@ namespace QLMP.DAL
                         var p = context.SanPhams.Update(sanPham);
                         context.SaveChanges();
                         tran.Commit();
+                        res.Data = sanPham;
                     }
                     catch (Exception ex)
                     {

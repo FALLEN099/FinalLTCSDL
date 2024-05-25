@@ -25,7 +25,7 @@ namespace QLMP.DAL
                  .ThenInclude(i => i.Product)
                  .FirstOrDefault(c => c.UserId == userId);
 
-            return cart; /*?? throw new Exception("Cart not found for the given user ID."); /* cart == null tương đương cart ??*/
+            return cart;
         }
         public SingleRsp AddProductToCart(int cartId, int productId, int quantity)
         {
@@ -43,6 +43,7 @@ namespace QLMP.DAL
                     };
                     context.CartItems.Add(cartItem);
                     context.SaveChanges();
+                    res.Data = cartItem;
                     tran.Commit();
                 }
                 catch (Exception ex)
@@ -51,6 +52,7 @@ namespace QLMP.DAL
                     res.SetError(ex.StackTrace);
                 }
             }
+            
             return res;
         }
 
@@ -83,12 +85,6 @@ namespace QLMP.DAL
                     foreach (var item in cartItems)
                     {
                         var c = new ChiTietHoaDon();
-                        //{
-                        //    MaHoaDon = hoaDon.MaHoaDon,
-                        //    MaSp = item.ProductId,
-                        //    SoLuong = (short)item.Quantity,
-                        //    DonGia = (float?)context.SanPhams.First(sp => sp.MaSp == item.ProductId).Gia
-                        //};
                             c.MaHoaDon = h.MaHoaDon;
                             c.MaSp = item.ProductId;
                             c.SoLuong = (short)item.Quantity;
@@ -163,6 +159,7 @@ namespace QLMP.DAL
                         context.CartItems.Remove(cartItem);
                         context.SaveChanges();
                         tran.Commit();
+                        res.Data=cartItem;
                     }
                 }
                 catch (Exception ex)
@@ -170,6 +167,33 @@ namespace QLMP.DAL
                     tran.Rollback();
                     res.SetError(ex.StackTrace);
                 }
+            }
+            return res;
+        }
+
+        public SingleRsp GetSalesStatisticsByProductType()
+        {
+            var res = new SingleRsp();
+            using (var context = new QuanLyMyPhamContext())
+            {
+                var statistics = context.ChiTietHoaDons
+                    .Include(cthd => cthd.MaSpNavigation)
+                    .ThenInclude(sp => sp.MaLoaiSpNavigation)
+                    .GroupBy(cthd => new
+                    {
+                        cthd.MaSpNavigation.MaLoaiSpNavigation.MaLoaiSp,
+                        cthd.MaSpNavigation.MaLoaiSpNavigation.TenLoaiSp
+                    })
+                    .Select(g => new
+                    {
+                        ProductTypeId = g.Key.MaLoaiSp,
+                        TenLoaiSanPham = g.Key.TenLoaiSp,
+                        SoLuong = g.Sum(x => x.SoLuong),
+                        TotalSales = g.Sum(x => x.SoLuong * x.DonGia)
+                    })
+                    .ToList();
+
+                res.Data = statistics;
             }
             return res;
         }

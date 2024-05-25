@@ -49,6 +49,10 @@ namespace QLMP.BLL
         {
             return cartRep.RemoveProductFromCart(cartItemId);
         }
+        public SingleRsp GetSalesStatisticsByProductType()
+        {
+            return cartRep.GetSalesStatisticsByProductType();
+        }
     }
 
 }

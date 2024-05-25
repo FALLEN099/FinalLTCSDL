@@ -59,6 +59,7 @@ namespace QLMP.DAL
                     var p = context.KhachHangs.Update(khachHangg);
                     context.SaveChanges();
                     tran.Commit();
+                    res.Data = khachHangg;
                 }
                 catch (Exception ex)
                 {

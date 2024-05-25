@@ -16,10 +16,18 @@ namespace QLMP.Web.Controllers
             cartSvc = new CartSvc();
         }
 
+
+        [HttpGet("sales-statistics-by-product-type")]
+        public IActionResult GetSalesStatisticsByProductType()
+        {
+            var res = cartSvc.GetSalesStatisticsByProductType();
+            return Ok(res);
+        }
         [HttpPost("add-product")]
         public IActionResult AddProductToCart(int userId, int productId, int quantity)
         {
             var res = cartSvc.AddProductToCart(userId, productId, quantity);
+
             return Ok(res);
         }
 
