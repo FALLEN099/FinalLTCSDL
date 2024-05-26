@@ -43,13 +43,15 @@
                         <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="Home">Trang Chủ</a>
+                                    <a class="nav-link" asp-controller="Home" asp-action="Index">Trang Chủ</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="Product"> Sản Phẩm</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="Login"> Đăng Nhập</a>
+                                   <li class="nav-item">
+                                        <a class="nav-link" asp-controller="Login" asp-action="Index">Đăng Nhập</a>
+                                   </li>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="Contact">Liên Hệ</a>
@@ -95,7 +97,7 @@
                     <div class="login_part_text text-center">
                         <div class="login_part_text_iner">
                             <h2>Bạn chưa có tài khoản?</h2>
-                            <a href="#" class="btn_3">Đăng Ký Ngay</a>
+                            <a href="Register/DangKy" class="btn_3">Đăng Ký Ngay</a>
                         </div>
                     </div>
                 </div>

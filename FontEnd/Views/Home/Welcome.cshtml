@@ -1,6 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "Welcome";
-    var username = ViewBag.Username;
+    var username = Context.Session.GetString("Username");
 }
 
-<h2>Welcome, @username!</h2>
+@if (!string.IsNullOrEmpty(username))
+{
+    <p>Welcome, @username!</p>
+}
+else
+{
+    <p>Please log in.</p>
+}

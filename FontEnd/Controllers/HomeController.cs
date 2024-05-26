@@ -31,16 +31,5 @@ namespace FontEnd.Controllers
         {
             return View();
         }
-        public IActionResult Welcome()
-        {
-            var username = HttpContext.Session.GetString("Username");
-            if (string.IsNullOrEmpty(username))
-            {
-                return RedirectToAction("Index", "Login");
-            }
-
-            ViewBag.Username = username;
-            return View();
-        }
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
 
 <!doctype html>
 <html>
@@ -51,18 +51,38 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="Contact">Liên Hệ</a>
                                 </li>
-                                <li class="nav-item">
-                                        <a class="nav-link" href="HomeAdmin">Admin</a>
-                                </li>
-                                 <li class="nav-item">
-                                    <a class="nav-link" href="Register/DangKy"> Đăng Ký</a>
-                                </li>
                                 
-                                  <li class="nav-item">
-                                     <a class="nav-link" href="Login/Index">Đăng Nhập</a>
-                                  </li>
-                                   
+                                @if (Context.Session.GetString("Username") == null)
+                                 {
+                                     <li class="nav-item">
+                                         <a class="nav-link" href="Register/DangKy">Đăng Ký</a>
+                                     </li>
+                                     <li class="nav-item">
+                                         <a class="nav-link" href="Login">Đăng Nhập</a>
+                                    </li>
+                                }
+                                else 
+                                {
+                                    if(Context.Session.GetString("Role") == "admin")
+                                    {
+                                        <li class="nav-item">
+                                         <a class="nav-link" href="HomeAdmin">Admin</a>
+                                        </li>
+                                        <li class="nav-item">
+                                         <a class="nav-link" href="Login/Logout">Đăng xuất</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                     <li class="nav-item">
+                                         <a class="nav-link" href="#">@Context.Session.GetString("Username")</a>
+                                     </li>
+                                     <li class="nav-item">
+                                         <a class="nav-link" href="Login/Logout">Đăng xuất</a>
+                                     </li>
+                                    }
                                   
+                                 }
                             </ul>
                         </div>
                         <div class="hearer_icon d-flex">

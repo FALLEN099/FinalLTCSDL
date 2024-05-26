@@ -1,104 +1,20 @@
-﻿//using Microsoft.AspNetCore.Authentication.JwtBearer;
-//using Microsoft.EntityFrameworkCore;
-//using Microsoft.IdentityModel.Tokens;
-//using QLMP.DAL.Models;
-//using QLMP.BLL;
-//using System.Text;
-//using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
-
-//var builder = WebApplication.CreateBuilder(args);
-
-//// Add services to the container.
-
-//builder.Services.AddControllers();
-//builder.Services.AddControllersWithViews()
-//    .AddNewtonsoftJson(options =>
-//    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-//);
-//// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-//builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
-
-//// Configure DbContext
-//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-//builder.Services.AddDbContext<QuanLyMyPhamContext>(options =>
-//    options.UseSqlServer(connectionString));
-
-//// Configure UserSvc
-//builder.Services.AddScoped<UserSvc>();
-
-//// Configure JWT Authentication
-//var secretKey = builder.Configuration.GetValue<string>("JwtSettings:securitykey");
-//var secretKeyBytes = Encoding.UTF8.GetBytes(secretKey);
-//builder.Services.AddAuthentication(options =>
-//{
-//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//}).AddJwtBearer(options =>
-//{
-//    options.RequireHttpsMetadata = true;
-//    options.SaveToken = true;
-//    options.TokenValidationParameters = new TokenValidationParameters()
-//    {
-//        ValidateIssuer = false,
-//        ValidateAudience = false,
-//        ValidateIssuerSigningKey = true,
-//        IssuerSigningKey = new SymmetricSecurityKey(secretKeyBytes),
-//        ValidateLifetime = true,
-//        ClockSkew = TimeSpan.Zero
-//    };
-//});
-
-//// Configure JWT settings
-//var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-//builder.Services.Configure<JwtSettings>(jwtSettings);
-
-//// Build the app
-//var app = builder.Build();
-
-//// Configure the HTTP request pipeline
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//    app.UseExceptionHandler("/Home/Error");
-//    app.UseHsts();
-//}
-
-//app.UseHttpsRedirection();
-
-//app.UseAuthentication(); // Add authentication middleware
-//app.UseAuthorization();
-
-//// Configure CORS
-//app.UseCors(policy => policy
-//    .AllowAnyOrigin()
-//    .AllowAnyMethod()
-//    .AllowAnyHeader());
-
-//app.MapControllers();
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-//app.Run();
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using QLMP.DAL.Models;
 using QLMP.BLL;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddControllers();
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
-        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -110,10 +26,6 @@ builder.Services.AddDbContext<QuanLyMyPhamContext>(options =>
 
 // Configure UserSvc
 builder.Services.AddScoped<UserSvc>();
-
-// Configure JWT settings
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-builder.Services.Configure<JwtSettings>(jwtSettings);
 
 // Configure JWT Authentication
 var secretKey = builder.Configuration.GetValue<string>("JwtSettings:securitykey");
@@ -137,13 +49,9 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Configure session services
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
+// Configure JWT settings
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+builder.Services.Configure<JwtSettings>(jwtSettings);
 
 // Build the app
 var app = builder.Build();
@@ -153,26 +61,20 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
-
-app.UseExceptionHandler("/Home/Error");
-app.UseHsts();
 
 app.UseHttpsRedirection();
 
-app.UseStaticFiles();
+app.UseAuthentication(); // Add authentication middleware
+app.UseAuthorization();
 
-app.UseRouting();
-
+// Configure CORS
 app.UseCors(policy => policy
     .AllowAnyOrigin()
     .AllowAnyMethod()
     .AllowAnyHeader());
-
-app.UseSession();
-
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapControllers();
 app.MapControllerRoute(
@@ -180,3 +82,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
