@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using FrontEnd.Models; // Import namespace chứa model của sản phẩm
 using QLMP.Common.Req;
 using Newtonsoft.Json;
+using QLMP.Common.Rsp;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace FrontEnd.Controllers
 {
@@ -25,22 +27,34 @@ namespace FrontEnd.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Index(UserReq uerreq)
+        public async Task<IActionResult> Index(LoginReq loginReq)
         {
-            var jsonContent = JsonConvert.SerializeObject(uerreq);
+            var jsonContent = JsonConvert.SerializeObject(loginReq);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await _httpClient.PostAsync("User/Login", content);
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                var singleRsp = JsonConvert.DeserializeObject<SingleRsp>(jsonResponse);
 
-                return View(uerreq);
+                if (singleRsp.Success)
+                {
+                    string token = singleRsp.Data.ToString();
+                    HttpContext.Session.SetString("Token", token);
+
+                    var handler = new JwtSecurityTokenHandler();
+                    var jwtToken = handler.ReadJwtToken(token);
+                    var username = jwtToken.Claims.First(claim => claim.Type == "UserName").Value;
+
+                    HttpContext.Session.SetString("Username", username);
+
+                    return RedirectToAction("Welcome", "Home");
+                }
             }
+
+            return View(loginReq);
         }
     }
 }

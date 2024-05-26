@@ -45,16 +45,13 @@
                             <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="Home">Trang Chủ</a>
+                                        <a class="nav-link" asp-controller="Home" asp-action="Index">Trang Chủ</a>
+                                   </li>
+                                    <li class="nav-item">
+                                         <a class="nav-link" asp-controller="Product" asp-action="Index">Sản Phẩm</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="Product"> Sản Phẩm</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="Login"> Đăng Nhập</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="Contact">Liên Hệ</a>
+                                        <a class="nav-link" href="">Liên Hệ</a>
                                     </li>
                                 </ul>
                             </div>
@@ -103,15 +100,15 @@
                                     <ul class="list">
                                         <li>
                                             <a href="@Url.Action("FilterByCategory", "Product", new { categoryName = "Trang Điểm" })">Trang Điểm</a>
-                                            <span>(20)</span>
+                                            <span></span>
                                         </li>
                                         <li>
                                             <a href="@Url.Action("FilterByCategory", "Product", new { categoryName = "Chăm Sóc Da" })">Chăm Sóc Da</a>
-                                            <span>(20)</span>
+                                            <span></span>
                                         </li>
                                         <li>
                                             <a href="@Url.Action("FilterByCategory", "Product", new { categoryName = "Chăm Sóc Toàn Thân" })">Chăm Sóc Toàn Thân</a>
-                                            <span>(20)</span>
+                                            <span></span>
                                         </li>
 
                                     </ul>
@@ -146,13 +143,6 @@
                                 <div class="product_top_bar d-flex justify-content-between align-items-center">
                                     <div class="single_product_menu">
                                         <p><span>60 </span> Sản Phẩm Được Tìm Thấy</p>
-                                    </div>
-                                    <div class="single_product_menu d-flex">
-                                        <h5>Phân Loại Theo: </h5>
-                                        <select>
-                                            <option data-display="Select">Sản Phẩm</option>
-                                            <option value="1">Giá</option>
-                                        </select>
                                     </div>
                                     <div class="single_product_menu d-flex">
                                         <h5>show :</h5>

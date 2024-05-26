@@ -81,7 +81,18 @@ namespace QLMP.BLL
             }
             return res;
         }
-
+        public SingleRsp TimKiem(string Keyword)
+        {
+            var res = new SingleRsp();
+            var sanPhams = sanPhamRep.SearchProduct(Keyword);
+            if (sanPhams == null)
+            {
+                res.SetError("CatagoryName not found.");
+                return res;
+            }
+            res.Data = sanPhams;
+            return res;
+        }
         public SingleRsp SearchProduct(SearchProductReq searchProductReq)
         {
             var res = new SingleRsp();

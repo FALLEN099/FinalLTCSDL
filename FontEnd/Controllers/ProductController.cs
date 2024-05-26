@@ -6,6 +6,7 @@ using FontEnd.Models;
 using Newtonsoft.Json.Linq;
 using FrontEnd.Models;
 using System.Threading.Tasks; // Thêm namespace này cho Task
+using System.Text;
 
 namespace FrontEnd.Controllers
 {
@@ -46,36 +47,14 @@ namespace FrontEnd.Controllers
         public async Task<IActionResult> FilterByCategory(string categoryName)
         {
             List<SanPhamVM> products = new List<SanPhamVM>();
-            HttpResponseMessage response = await _httpClient.GetAsync("SanPham/get-all");
+            HttpResponseMessage response = await _httpClient.GetAsync($"SanPham/search-by-category-name?categoryName={categoryName}");
             if (response.IsSuccessStatusCode)
             {
                 var responseData = await response.Content.ReadAsStringAsync();
 
-                // Deserialize directly into a list of SanPhamVM
-                products = JsonConvert.DeserializeObject<List<SanPhamVM>>(responseData);
-            }
-
-            // Filter products based on categoryName
-            List<SanPhamVM> filteredProducts = products.Where(p => p.TenLoaiSp != null && p.TenLoaiSp.Equals(categoryName)).ToList();
-            return View(filteredProducts); // Return the filtered result to the FilteredProducts view
-        }
-        [HttpGet]
-        public async Task<IActionResult> Search(string productName)
-        {
-            List<SanPhamVM> products = await GetAllProductsAsync();
-            List<SanPhamVM> searchedProducts = products.Where(p => p.TenSp != null && p.TenSp.ToLower().Contains(productName.ToLower())).ToList();
-            return View("Index", searchedProducts); // Return the searched result to the Index view
-        }
-
-        private async Task<List<SanPhamVM>> GetAllProductsAsync()
-        {
-            List<SanPhamVM> products = new List<SanPhamVM>();
-            HttpResponseMessage response = await _httpClient.GetAsync("SanPham/get-all");
-            if (response.IsSuccessStatusCode)
-            {
-                var responseData = await response.Content.ReadAsStringAsync();
                 // Parse the JSON object
                 JObject jsonResponse = JObject.Parse(responseData);
+
                 // Check if the "data" property exists and if it is an array
                 if (jsonResponse["data"] != null && jsonResponse["data"].Type == JTokenType.Array)
                 {
@@ -83,7 +62,51 @@ namespace FrontEnd.Controllers
                     products = jsonResponse["data"].ToObject<List<SanPhamVM>>();
                 }
             }
-            return products;
+
+            return View(products); // Return the filtered result to the FilteredProducts view
         }
+        
+        //public async Task<IActionResult> Search()
+        //{
+
+        //        return View(); // Initially return an empty list
+            
+        //}
+        [HttpGet]
+        public async Task<IActionResult> Search(string productName)
+        {
+            List<SanPhamVM> products = new List<SanPhamVM>();
+            HttpResponseMessage response = await _httpClient.GetAsync($"SanPham/Tim Kiem-product?keyword={productName}");
+            if (response.IsSuccessStatusCode)
+            {
+                var responseData = await response.Content.ReadAsStringAsync();
+                JObject jsonResponse = JObject.Parse(responseData);
+
+                if (jsonResponse["data"] != null && jsonResponse["data"].Type == JTokenType.Array)
+                {
+                    products = jsonResponse["data"].ToObject<List<SanPhamVM>>();
+                }
+            }
+
+            return View(products);
+        }
+        //var jsonContent = JsonConvert.SerializeObject(productName);
+        //var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+        //HttpResponseMessage response = await _httpClient.GetAsync("SanPham/Tim Kiem-product", content);
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        var responseData = await response.Content.ReadAsStringAsync();
+
+        //// Parse the JSON object
+        //JObject jsonResponse = JObject.Parse(responseData);
+
+        //        // Check if the "data" property exists and if it is an array
+        //        if (jsonResponse["data"] != null && jsonResponse["data"].Type == JTokenType.Array)
+        //        {
+        //            // Deserialize the array into a list of SanPhamVM
+        //            products = jsonResponse["data"].ToObject<List<SanPhamVM>>();
+        //        }
+    //}
+        
     }
 }

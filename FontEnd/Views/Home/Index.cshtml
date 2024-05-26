@@ -57,10 +57,12 @@
                                  <li class="nav-item">
                                     <a class="nav-link" href="Register/DangKy"> Đăng Ký</a>
                                 </li>
-                                 <li class="nav-item">
-                                    <a class="nav-link" href="Login/Index"> Đăng Nhập</a>
-                                </li>
-
+                                
+                                  <li class="nav-item">
+                                     <a class="nav-link" href="Login/Index">Đăng Nhập</a>
+                                  </li>
+                                   
+                                  
                             </ul>
                         </div>
                         <div class="hearer_icon d-flex">
@@ -85,12 +87,13 @@
         </div>
         <div class="search_input" id="search_input_box">
             <div class="container ">
-                <form class="d-flex justify-content-between search-inner">
-                    <input type="text" class="form-control" id="search_input" placeholder="Search Here">
-                    <button type="submit" class="btn"></button>
-                    <span class="ti-close" id="close_search" title="Close Search"></span>
-                </form>
-            </div>
+                    <form action="@Url.Action("Search", "Product")" method="get" class="d-flex justify-content-between search-inner">
+                       <input type="text" class="form-control" id="search_input" name="productName" placeholder="Search Here">
+                        <button type="submit" class="btn">Search</button>
+                        <span class="ti-close" id="close_search" title="Close Search"></span>
+                    </form>
+
+                </div>
         </div>
     </header>
     <!-- Header part end-->

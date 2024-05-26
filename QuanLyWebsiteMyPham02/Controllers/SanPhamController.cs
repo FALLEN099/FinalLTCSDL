@@ -56,11 +56,18 @@ namespace QLMP.Web.Controllers
             res.Data = sanPhamReq;
             return Ok(res);
         }
-        [HttpPost("search-product")]
+        [HttpGet("search-product")]
         public IActionResult SearchProduct([FromBody] SearchProductReq searchProductReq)
         {
             var res = new SingleRsp();
             res = sanPhamSvc.SearchProduct(searchProductReq);
+            return Ok(res);
+        }
+        [HttpGet("Tim Kiem-product")]
+        public IActionResult TimKiem(string keyword)
+        {
+            var res = new SingleRsp();
+            res = sanPhamSvc.TimKiem(keyword);
             return Ok(res);
         }
         [HttpGet("search-by-category-name")]

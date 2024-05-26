@@ -55,9 +55,6 @@
                                     <a class="nav-link" href="Product"> Sản Phẩm</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="Login"> Đăng Nhập</a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link" href="Contact">Liên Hệ</a>
                                 </li>
                             </ul>
@@ -84,10 +81,11 @@
         </div>
         <div class="search_input" id="search_input_box">
             <div class="container ">
-                <form class="d-flex justify-content-between search-inner" action="/Product/Search" method="get">
-                    <input type="text" class="form-control" name="productName" placeholder="Tìm sản phẩm">
-                    <button type="submit" class="btn">
-                </form>
+                <form action="@Url.Action("Search", "Product")" method="get" class="d-flex justify-content-between search-inner">
+                        <input type="text" class="form-control" id="search_input" name="productName" placeholder="Search Here">
+                        <button type="submit" class="btn">Search</button>
+                        <span class="ti-close" id="close_search" title="Close Search"></span>
+                    </form>
             </div>
         </div>
     </header>
@@ -151,13 +149,6 @@
                                     <p><span>60 </span> Sản Phẩm Được Tìm Thấy</p>
                                 </div>
                                 <div class="single_product_menu d-flex">
-                                    <h5>Phân Loại Theo: </h5>
-                                    <select>
-                                        <option data-display="Select">Sản Phẩm</option>
-                                        <option value="1">Giá</option>
-                                    </select>
-                                </div>
-                                <div class="single_product_menu d-flex">
                                     <h5>show :</h5>
                                     <div class="top_pageniation">
                                         <ul>
@@ -169,13 +160,11 @@
                                 </div>
                                 <div class="single_product_menu d-flex">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="search"
-                                               aria-describedby="inputGroupPrepend">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroupPrepend">
-                                                <i class="ti-search"></i>
-                                            </span>
-                                        </div>
+                                      <form action="@Url.Action("Search", "Product")" method="get" class="d-flex justify-content-between search-inner">
+                                        <input type="text" class="form-control" id="search_input" name="productName" placeholder="Search Here">
+                                        <button type="submit" class="btn">Search</button>
+                                      </form>
+
                                     </div>
                                 </div>
                             </div>
