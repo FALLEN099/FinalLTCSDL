@@ -4,7 +4,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FrontEnd.Models; // Import namespace chứa model của sản phẩm
 using FontEnd.Models;
-//using AspNetCore;
+using QLMP.Common.Req;
+using System.Text;
+
 
 
 namespace FrontEnd.Controllers
@@ -25,27 +27,32 @@ namespace FrontEnd.Controllers
             HttpResponseMessage response = await _httpClient.GetAsync($"SanPham/GetById?id={id}");
             if (response.IsSuccessStatusCode)
             {
-                // Đọc dữ liệu phản hồi và chuyển đổi thành đối tượng sản phẩm
                 var productData = await response.Content.ReadAsStringAsync();
-                var product = JsonConvert.DeserializeObject<SanPhamVM>(productData);
-
-                // Chuyển đổi đối tượng sản phẩm thành đối tượng ViewModel tương ứng
-                var viewModel = new SanPhamVM
-                {
-                    maSp = product.maSp,
-                    TenSp = product.TenSp,
-                    Gia = product.Gia,
-                    TenLoaiSp = product.TenLoaiSp
-                    // Thêm các thuộc tính khác tương ứng với ViewModel của bạn
-                    // ...
-                };
-
-                return View(viewModel); // Trả về view với dữ liệu sản phẩm
+                var product = JsonConvert.DeserializeObject<SanPhamReq>(productData);
+                return View(product); // Trả về view với dữ liệu sản phẩm
             }
             else
             {
                 // Xử lý lỗi khi yêu cầu không thành công
                 return StatusCode((int)response.StatusCode);
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Index(int id, SanPhamReq model)
+        {
+            var jsonContent = JsonConvert.SerializeObject(model);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _httpClient.PutAsync($"SanPham/Update-Product?Id={id}", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "AdminQLProduct");
+            }
+            else
+            {
+
+                return View(model);
             }
         }
 

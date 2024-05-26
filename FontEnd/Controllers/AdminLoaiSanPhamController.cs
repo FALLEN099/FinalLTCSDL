@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using FrontEnd.Models;
+using QLMP.Common.Req;
+using System.Text;
+using Newtonsoft.Json;
+
 namespace FrontEnd.Controllers
 {
     public class AdminLoaiSanPhamController : Controller
@@ -33,25 +37,18 @@ namespace FrontEnd.Controllers
                 }
                 else
                 {
-                    // Handle the case where the "data" property does not exist or is not an array
-                    // You might want to log an error or handle it in some other way
-                    // For example:
-                    // ModelState.AddModelError("", "No data received from the API or the data is not in the expected format.");
+                    
+                   ModelState.AddModelError("", "No data received from the API or the data is not in the expected format.");
                 }
             }
             else
             {
-                // Handle the case where the API request was not successful
-                // You might want to log an error or handle it in some other way
-                // For example:
-                // ModelState.AddModelError("", "Failed to retrieve data from the API. Status code: " + response.StatusCode);
+               
+                ModelState.AddModelError("", "Failed to retrieve data from the API. Status code: " + response.StatusCode);
             }
 
             return View(products);
         }
-
-
-
         [HttpPost]
         public async Task<IActionResult> DeleteCateProduct(string id)
         {
@@ -66,7 +63,68 @@ namespace FrontEnd.Controllers
                 return StatusCode((int)response.StatusCode);
             }
         }
+        public IActionResult CreateCate()
+        {
+            return View();
+        }
 
-       
+        // Phương thức xử lý việc thêm sản phẩm
+        [HttpPost]
+        public async Task<IActionResult> CreateCate(LoaiSpReq loaiSpReq)
+        {
+            var jsonContent = JsonConvert.SerializeObject(loaiSpReq);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _httpClient.PostAsync("LoaiSP/Create", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "AdminLoaiSanPham");
+            }
+            else
+            {
+                // Xử lý lỗi khi yêu cầu không thành công
+                return View(loaiSpReq);
+            }
+        }
+        //sua
+        public async Task<IActionResult> Update(int id)
+        {
+            // Gửi yêu cầu GET để lấy thông tin sản phẩm từ API
+            HttpResponseMessage response = await _httpClient.GetAsync($"LoaiSP/GetById?id={id}");
+            if (response.IsSuccessStatusCode)
+            {
+                // Đọc dữ liệu phản hồi và chuyển đổi thành đối tượng sản phẩm
+                var productData = await response.Content.ReadAsStringAsync();
+                var cate = JsonConvert.DeserializeObject<LoaiSpReq>(productData);
+                return View(cate);
+            }
+            else
+            {
+               
+                return StatusCode((int)response.StatusCode);
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(int id, LoaiSpReq model)
+        {
+            var jsonContent = JsonConvert.SerializeObject(model);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _httpClient.PutAsync($"LoaiSP/Update?Id={id}", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+              
+                return RedirectToAction("Index", "AdminLoaiSanPham");
+            }
+            else
+            {
+               
+                return View(model);
+            }
+        }
+
+
     }
 }

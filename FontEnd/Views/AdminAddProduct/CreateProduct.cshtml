@@ -1,0 +1,36 @@
+﻿
+@model QLMP.Common.Req.SanPhamReq
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Thêm Sản Phẩm</title>
+    <link rel="stylesheet" href="~/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Thêm Sản Phẩm</h1>
+        <form asp-action="CreateProduct" method="post">
+            <div class="form-group">
+                <label for="TenSp">Tên sản phẩm:</label>
+                <input type="text" class="form-control" id="TenSp" name="TenSp" required>
+            </div>
+            <div class="form-group">
+                <label for="Gia">Giá:</label>
+                <input type="number" class="form-control" id="Gia" name="Gia" required>
+            </div>
+            <div class="form-group">
+                <label for="MaLoaiSp">Mã Loại sản phẩm:</label>
+                <input type="text" class="form-control" id="MaLoaiSp" name="MaLoaiSp" required>
+            </div>
+            <div class="form-group">
+                <label for="HinhAnh">Hình ảnh:</label>
+                <input type="text" class="form-control" id="HinhAnh" name="HinhAnh">
+            </div>
+            <button type="submit" class="btn btn-primary">Thêm</button>
+        </form>
+    </div>
+</body>
+</html>

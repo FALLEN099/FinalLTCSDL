@@ -135,7 +135,7 @@
                 </nav>
             </div>
         </nav>
-        <a href="@Url.Action("Index", "AdminAddProduct")" class="view-btn">Thêm</a>
+        <a href="@Url.Action("Create", "AdminLoaiSanPham")" class="view-btn">Thêm</a>
         <div class="container">
             <header>
                 <h1>Quản Lý Sản Phẩm</h1>
@@ -144,26 +144,25 @@
                 <table>
                     <thead>
                         <tr>
+                           
                             <th>Mã</th>
                             <th>Loại sản phẩm</th>
-                            <th>Số lượng sản phẩm</th>
                             <th>Hành Động</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var product in Model)
+                        @foreach (var cate in Model)
                         {
                             <tr>
-                                <td>@product.maLoaiSp</td>
-                                <td>@product.tenLoaiSp</td>
-                                <td>@product.sanPhams</td>
+                                <td>@cate.maLoaiSp</td>
+                                <td>@cate.tenLoaiSp</td>
                                 <td>
                                     <!-- Sử dụng JavaScript để chuyển hướng và truyền dữ liệu sản phẩm -->
-                                    <a href="@Url.Action("Index", "AdminLoaiSanPham", new { maSp = product.maLoaiSp })" class="view-btn">Sửa</a>
+                                    <a href="@Url.Action("Update", "AdminLoaiSanPham", new { id = cate.maLoaiSp })" class="view-btn">Sửa</a>
                                     <!-- Thêm form để gửi yêu cầu xóa sản phẩm -->
                                     <form method="post" action="@Url.Action("DeleteCateProduct", "AdminLoaiSanPham")">
                                         @* Sử dụng input hidden để truyền mã sản phẩm *@
-                                        <input type="hidden" name="id" value="@product.maLoaiSp" />
+                                        <input type="hidden" name="id" value="@cate.maLoaiSp" />
                                         <button type="submit" class="view-btn" style="background-color: red">Xóa</button>
                                     </form>
                                 </td>

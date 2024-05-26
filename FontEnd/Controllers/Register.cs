@@ -1,36 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using FrontEnd.Models; // Import namespace chứa model của sản phẩm
-using QLMP.Common.Req;
 using Newtonsoft.Json;
+using QLMP.Common.Req;
+using System.Text;
 
 namespace FrontEnd.Controllers
 {
-    public class LoginController : Controller
+    public class Register : Controller
     {
         private readonly HttpClient _httpClient;
 
-        public LoginController()
+        public Register()
         {
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri("https://localhost:7279/api/");
         }
-
-       
-        public IActionResult Index()
+        public IActionResult DangKy()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Index(UserReq uerreq)
+        public async Task<IActionResult> DangKy(UserReq uerreq)
         {
             var jsonContent = JsonConvert.SerializeObject(uerreq);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _httpClient.PostAsync("User/Login", content);
+            HttpResponseMessage response = await _httpClient.PostAsync("User/Register", content);
 
             if (response.IsSuccessStatusCode)
             {
