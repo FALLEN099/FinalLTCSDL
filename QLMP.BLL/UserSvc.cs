@@ -125,9 +125,9 @@ namespace QLMP.BLL
             return userRep.UpdateUser(existingUser);
         }
 
-        public void DeleteUser(int id)
+        public SingleRsp DeleteUser(int id)
         {
-            userRep.Delete(id);
+           return  userRep.Delete(id);
         }
         public void DeleteUserByUserName(string username)
         {

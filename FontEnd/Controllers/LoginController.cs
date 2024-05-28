@@ -38,25 +38,28 @@ namespace FrontEnd.Controllers
             {
                 var jsonResponse = await response.Content.ReadAsStringAsync();
                 var singleRsp = JsonConvert.DeserializeObject<SingleRsp>(jsonResponse);
-
-                if (singleRsp.Success)
+              
+                if (singleRsp.Success&& singleRsp.Data!=null)
                 {
                     string token = singleRsp.Data.ToString();
                     HttpContext.Session.SetString("Token", token);
-
                     var handler = new JwtSecurityTokenHandler();
                     var jwtToken = handler.ReadJwtToken(token);
                     var username = jwtToken.Claims.First(claim => claim.Type == "UserName").Value;
                     var userId = jwtToken.Claims.First(claim => claim.Type == "Id").Value;
-                    var role = jwtToken.Claims.First(claim => claim.Type == "Role").Value;
+                    var role = jwtToken.Claims.First(claim => claim.Type == "role").Value;
                     HttpContext.Session.SetString("Username", username);
                     HttpContext.Session.SetString("UserId", userId);
                     HttpContext.Session.SetString("Role", role);
-
                     return Redirect("/");
                 }
-            }
+                else
+                {
+                    TempData["ErrorMessage"] = "Sai Tài Khoản Hoặc Mật Khẩu";
+                }
 
+            }
+           
             return View(loginReq);
         }
         public IActionResult Logout()

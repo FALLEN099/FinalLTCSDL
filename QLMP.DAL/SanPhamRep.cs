@@ -20,13 +20,6 @@ namespace QLMP.DAL
             return res;
         }
 
-        public int Remove(int id)
-        {
-            var m = base.All.First(i => i.MaSp == id);
-            m = base.Delete(m);
-            return m.MaSp;
-        }
-
         #endregion
         #region -- Method --
         public SingleRsp CreateProduct(SanPham sanPham)
@@ -73,6 +66,38 @@ namespace QLMP.DAL
             }
             return res;
         }
+        public SingleRsp Remove(int Id)
+        {
+            var res = new SingleRsp();
+            using (var context = new QuanLyMyPhamContext())
+            {
+                using var tran = context.Database.BeginTransaction();
+                {
+                    try
+                    {
+                        var sanPham = context.SanPhams.FirstOrDefault(s=>s.MaSp==Id);
+                        if (sanPham != null)
+                        {
+                            context.SanPhams.Remove(sanPham);
+                            context.SaveChanges();
+                            tran.Commit();
+                            res.Data = sanPham;
+                        }
+                        else
+                        {
+                            res.SetError("Product not found");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        res.SetError(ex.StackTrace);
+                    }
+                }
+            }
+            return res;
+        }
+
         public List<SanPham> SearchProduct(string keyword)
         {
             return All.Where(x => x.TenSp.Contains(keyword)).ToList();
@@ -83,6 +108,10 @@ namespace QLMP.DAL
             return All.Where(x => x.MaLoaiSpNavigation.TenLoaiSp.Contains(categoryName)).ToList();
         }
 
+        public List<SanPham> GetAllProduct()
+        {
+            return All.ToList();
+        }
         #endregion
     }
 }

@@ -52,6 +52,8 @@ namespace FrontEnd.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteCateProduct(string id)
         {
+            var token = HttpContext.Session.GetString("Token");
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             HttpResponseMessage response = await _httpClient.DeleteAsync($"LoaiSP/DeletaById?id={id}");
             if (response.IsSuccessStatusCode)
             {
@@ -72,6 +74,8 @@ namespace FrontEnd.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCate(LoaiSpReq loaiSpReq)
         {
+            var token = HttpContext.Session.GetString("Token");
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             var jsonContent = JsonConvert.SerializeObject(loaiSpReq);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
@@ -108,6 +112,8 @@ namespace FrontEnd.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(int id, LoaiSpReq model)
         {
+            var token = HttpContext.Session.GetString("Token");
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             var jsonContent = JsonConvert.SerializeObject(model);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
@@ -120,7 +126,7 @@ namespace FrontEnd.Controllers
             }
             else
             {
-               
+                TempData["ErrorMessage"] = "An error occurred while processing your request. Please try again.";
                 return View(model);
             }
         }

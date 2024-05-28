@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿@model QLMP.Common.Req.CartReq
+<!doctype html>
 <html lang="zxx">
 
 <head>
@@ -50,15 +51,41 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="Product"> Sản Phẩm</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="Login"> Đăng Nhập</a>
-                                </li>
+                                
                                 <li class="nav-item">
                                     <a class="nav-link" href="Contact">Liên Hệ</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="HomeAdmin">Admin</a>
-                                </li>
+                               @if (Context.Session.GetString("Username") == null)
+                                 {
+                                     <li class="nav-item">
+                                         <a class="nav-link" href="Register/DangKy">Đăng Ký</a>
+                                     </li>
+                                     <li class="nav-item">
+                                         <a class="nav-link" href="Login">Đăng Nhập</a>
+                                    </li>
+                                }
+                                else 
+                                {
+                                    if(Context.Session.GetString("Role") == "admin")
+                                    {
+                                        <li class="nav-item">
+                                         <a class="nav-link" href="HomeAdmin">Admin</a>
+                                        </li>
+                                        <li class="nav-item">
+                                         <a class="nav-link" href="Login/Logout">Đăng xuất</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                     <li class="nav-item">
+                                         <a class="nav-link" href="#">@Context.Session.GetString("Username")</a>
+                                     </li>
+                                     <li class="nav-item">
+                                         <a class="nav-link" href="Login/Logout">Đăng xuất</a>
+                                     </li>
+                                    }
+                                  
+                                 }
                             </ul>
                         </div>
                         <div class="hearer_icon d-flex">
@@ -96,7 +123,74 @@
     
     <!-- breadcrumb start-->
     <!--================Cart Area =================-->
-    <section class="cart_area padding_top">
+
+<section class="cart_area padding_top">
+    <div class="container">
+        <div class="cart_inner">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sản Phẩm</th>
+                            <th scope="col">Giá</th>
+                            <th scope="col">Số Lượng</th>
+                            <th scope="col">Tổng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CartItems)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="media">
+                                        <div class="d-flex">
+                                            <img src="~/img/product/single-product/cart-1.jpg" alt="" />
+                                        </div>
+                                        <div class="media-body">
+                                            <p>@item.ProductName</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5>@item.ProductPrice đ</h5>
+                                </td>
+                                <td>
+                                    <div class="product_count">
+                                        <span class="input-number-decrement"> <i class="ti-angle-down"></i></span>
+                                        <input class="input-number" type="text" value="@item.Quantity" min="0" max="10">
+                                        <span class="input-number-increment"> <i class="ti-angle-up"></i></span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5>@(item.ProductPrice * item.Quantity) đ</h5>
+                                </td>
+                            </tr>
+                        }
+                       
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>Tổng Cộng</h5>
+                            </td>
+                            <td>
+                                <h5>@Model.CartItems.Sum(item => item.ProductPrice * item.Quantity) đ</h5>
+                            </td>
+                        </tr>
+                    
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="checkout_btn_inner float-right">
+                    <a class="btn_1" href="Product">Tiếp Tục Mua Sắm</a>
+                    <a class="btn_1 checkout_btn_1" href="@Url.Action("PlaceOrder", "GioHang")">Thanh Toán</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    @*<section class="cart_area padding_top">
         <div class="container">
             <div class="cart_inner">
                 <div class="table-responsive">
@@ -262,7 +356,7 @@
                     </div>
                 </div>
             </div>
-    </section>
+    </section>*@
     <!--================End Cart Area =================-->
     <!--::footer_part start::-->
     <footer class="footer_part">

@@ -16,6 +16,7 @@ namespace FrontEnd.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+
             List<SanPhamVM> products = new List<SanPhamVM>();
             HttpResponseMessage response = await _httpClient.GetAsync("SanPham/get-all");
             if (response.IsSuccessStatusCode)
@@ -40,6 +41,8 @@ namespace FrontEnd.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteProduct(string id)
         {
+            var token = HttpContext.Session.GetString("Token");
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             HttpResponseMessage response = await _httpClient.DeleteAsync($"SanPham/Delete-Product?id={id}");
             if (response.IsSuccessStatusCode)
             {

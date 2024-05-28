@@ -40,6 +40,8 @@ namespace FrontEnd.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(int id, SanPhamReq model)
         {
+            var token = HttpContext.Session.GetString("Token");
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             var jsonContent = JsonConvert.SerializeObject(model);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 

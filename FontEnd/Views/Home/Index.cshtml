@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http;
-
+@model List<QLMP.DAL.Models.SanPham>
 <!doctype html>
 <html>
     <!-- Required meta tags -->
@@ -55,7 +55,7 @@
                                 @if (Context.Session.GetString("Username") == null)
                                  {
                                      <li class="nav-item">
-                                         <a class="nav-link" href="Register/DangKy">Đăng Ký</a>
+                                         <a class="nav-link" href="Register">Đăng Ký</a>
                                      </li>
                                      <li class="nav-item">
                                          <a class="nav-link" href="Login">Đăng Nhập</a>
@@ -87,20 +87,14 @@
                         </div>
                         <div class="hearer_icon d-flex">
                             <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <a href=""><i class="ti-heart"></i></a>
-                            <div class="dropdown cart">
-                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a href="#"><i class="ti-heart"></i></a>
+                            <div class="cart">
+                                <a href="GioHang" id="navbarDropdown3" role="button">
                                     <i class="fas fa-cart-plus"></i>
                                 </a>
-                                <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <div class="single_product">
-
-                                    </div>
-                                </div> -->
-
                             </div>
                         </div>
+
                     </nav>
                 </div>
             </div>
@@ -223,91 +217,60 @@
                     <div class="product_list_slider owl-carousel">
                         <div class="single_product_list_slider">
                             <div class="row align-items-center justify-content-between">
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="./Images/TrangDiem1.png" alt="">
-                                        <div class="single_product_text">
-                                            <h4>Kẻ Mắt Merzy</h4>
-                                            <h3>110.000đ</h3>
-                                            <a href="GioHang" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
+                                @{
+                                    var products = Model.ToList();
+                                    int midpoint = products.Count / 2;
+                                    var firstHalf = products.Take(midpoint).ToList();
+                                    var secondHalf = products.Skip(midpoint).ToList();
+                                }
+                                @foreach (var product in firstHalf)
+                                {
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="single_product_item">
+                                            <img src="/@product.HinhAnh" alt="">
+                                            <div class="single_product_text">
+                                                <h4>@product.TenSp</h4>
+                                                <h3>@product.Gia đ</h3>@*
+                                                 <a href="@Url.Action("AddToCart", "GioHang", new { id = product.MaSp })" class="view-btn">Sửa</a>*@
+                                                <a href="@Url.Action("AddToCart", "GioHang", new { id = product.MaSp })" class="add_cart">+ thêm vào giỏ hàng<i class="ti-heart"></i></a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="./Images/TrangDiem2.jpg" alt="">
-                                        <div class="single_product_text">
-                                            <h4>Son Kem FOIF Daily Velvet Tint</h4>
-                                            <h3>140.000đ</h3>
-                                            <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
+                                }
+                                @*@foreach (var product in Model)
+                                {
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="single_product_item">
+                                            <img src="/@product.HinhAnh" alt="">
+                                            <div class="single_product_text">
+                                                <h4>@product.TenSp</h4>
+                                                <h3>@product.Gia đ</h3>
+                                                <a href="GioHang" class="add_cart">+ thêm vào giỏ hàng<i class="ti-heart"></i></a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="./Images/TrangDiem5.jpg" alt="">
-                                        <div class="single_product_text">
-                                            <h4>Son Uemura Rouge Unlimited Matte</h4>
-                                            <h3>290.000đ</h3>
-                                            <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="./Images/TrangDiem3.jpg" alt="">
-                                        <div class="single_product_text">
-                                            <h4>Phấn Má Hồng Etude House Blusher</h4>
-                                            <h3>110.000đ</h3>
-                                            <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="./Images/TrangDiem4.jpg" alt="">
-                                        <div class="single_product_text">
-                                            <h4>Phấn Nước AprilSkin Snow Cushion</h4>
-                                            <h3>290.000đ</h3>
-                                            <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="Images/TrangDiem6.jpg" alt="">
-                                        <div class="single_product_text">
-                                            <h4>Phấn Nước April Skin Blossom Cushionh</h4>
-                                            <h3>450.000đ</h3>
-                                            <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="./Images/TrangDiem7.jpg" alt="">
-                                        <div class="single_product_text">
-                                            <h4>Phấn Mắt Habaria Professional</h4>
-                                            <h3>95.000đ</h3>
-                                            <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="./Images/TrangDiem8.jpg" alt="">
-                                        <div class="single_product_text">
-                                            <h4>Sáp Che Khuyết Điểm Và Tạo Khối</h4>
-                                            <h3>85.000đ</h3>
-                                            <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
+                                }*@
+                                
                             </div>
                         </div>
                         <div class="single_product_list_slider">
                             <div class="row align-items-center justify-content-between">
-                                <div class="col-lg-3 col-sm-6">
+                                @foreach (var product in secondHalf)
+                                {
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="single_product_item">
+                                            <img src="/@product.HinhAnh" alt="">
+                                            <div class="single_product_text">
+                                                <h4>@product.TenSp</h4>
+                                                <h3>@product.Gia đ</h3>@*
+                                                <a href="GioHang" class="add_cart">+ thêm vào giỏ hàng<i class="ti-heart"></i></a>*@
+                                                 <a href="@Url.Action("AddToCart", "GioHang", new { id = product.MaSp })" class="add_cart">+ thêm vào giỏ hàng<i class="ti-heart"></i></a>
+                                           
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                @* <div class="col-lg-3 col-sm-6">
                                     <div class="single_product_item">
                                         <img src="./Images/ChamDa1.jpg" alt="">
                                         <div class="single_product_text">
@@ -386,91 +349,7 @@
                                             <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="single_product_list_slider">
-                            <div class="row align-items-center justify-content-between">
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="./Images/ToanThan1.jpg" alt="">
-                                        <div class="single_product_text">
-                                            <h4>Miếng Dán Răng Crest Blanc Brillant</h4>
-                                            <h3>55.000đ</h3>
-                                            <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="./Images/ToanThan2.jpg" alt="">
-                                        <div class="single_product_text">
-                                            <h4>Sữa Dưỡng Thể Trắng Da Vaseline</h4>
-                                            <h3>130.000đ</h3>
-                                            <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="./Images/ToanThan3.jpg" alt="">
-                                        <div class="single_product_text">
-                                            <h4>Kem Dưỡng Bioderma Cicabio</h4>
-                                            <h3>220.000đ</h3>
-                                            <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="./Images/ToanThan4.jpg" alt="">
-                                        <div class="single_product_text">
-                                            <h4>Dung Dịch Vệ Sinh Ziaja Intima</h4>
-                                            <h3>105.000đ</h3>
-                                            <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="./Images/ToanThan5.jpg" alt="">
-                                        <div class="single_product_text">
-                                            <h4>Sáp Lạnh Wax Lông Horshion</h4>
-                                            <h3>75.000đ</h3>
-                                            <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="./Images/ToanThan6.jpg" alt="">
-                                        <div class="single_product_text">
-                                            <h4>Kem Dưỡng Da Tay Và Móng Vaseline</h4>
-                                            <h3>50.000đ</h3>
-                                            <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="./Images/ToanThan7.jpg" alt="">
-                                        <div class="single_product_text">
-                                            <h4>Kem Dưỡng Thể RMON White Label</h4>
-                                            <h3>350.000đ</h3>
-                                            <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="./Images/ToanThan8.jpg" alt="">
-                                        <div class="single_product_text">
-                                            <h4>Tẩy Da Chết Dove Body Scrub</h4>
-                                            <h3>160.000đ</h3>
-                                            <a href="#" class="add_cart">+ Thêm Vào Giỏ Hàng<i class="ti-heart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
+                                </div> *@
                             </div>
                         </div>
                     </div>
@@ -483,65 +362,7 @@
    
     <!-- awesome_shop part start-->
     <!-- product_list part start-->
-    <section class="product_list best_seller section_padding">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <div class="section_tittle text-center">
-                        <h2>Bán Chạy</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row align-items-center justify-content-between">
-                <div class="col-lg-12">
-                    <div class="best_product_slider owl-carousel">
-                        <div class="single_product_item">
-                            <img src="./Images/TrangDiem2.jpg" alt="">
-                            <div class="single_product_text">
-                                <h4>Son Kem FOIF Daily Velvet Tint</h4>
-                                <h3>140.000đ</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="./Images/TrangDiem3.jpg" alt="">
-                            <div class="single_product_text">
-                                <h4>Phấn Má Hồng Etude House Blusher</h4>
-                                <h3>110.000đ</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="./Images/ToanThan8.jpg" alt="">
-                            <div class="single_product_text">
-                                <h4>Tẩy Da Chết Dove Body Scrub</h4>
-                                <h3>160.000đ</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="./Images/ToanThan3.jpg" alt="">
-                            <div class="single_product_text">
-                                <h4>Kem Dưỡng Bioderma Cicabio</h4>
-                                <h3>220.000đ</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="./Images/ChamDa1.jpg" alt="">
-                            <div class="single_product_text">
-                                <h4>Mặt Mạ Yuejin Repair Control</h4>
-                                <h3>18.000đ</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="./Images/ChamDa5.jpg" alt="">
-                            <div class="single_product_text">
-                                <h4>Kem Chống Nắng PrettySkin Scream</h4>
-                                <h3>170.000đ</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+   
     <!-- product_list part end-->
     <!-- subscribe_area part start-->
     <section class="client_logo padding_top">

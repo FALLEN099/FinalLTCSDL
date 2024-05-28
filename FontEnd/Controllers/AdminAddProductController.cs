@@ -27,6 +27,8 @@ namespace FrontEnd.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct(SanPhamReq sanPhamReq)
         {
+            var token = HttpContext.Session.GetString("Token");
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             var jsonContent = JsonConvert.SerializeObject(sanPhamReq);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 

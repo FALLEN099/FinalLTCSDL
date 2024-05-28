@@ -177,7 +177,7 @@
                                         <div class="single_product_text">
                                             <h4>@product.TenSp</h4>
                                             <h3>@product.Gia đ</h3>
-                                            <a href="#" class="add_cart">+ thêm vào giỏ hàng<i class="ti-heart"></i></a>
+                                            <a href="@Url.Action("AddToCart", "GioHang", new { id = product.maSp })">+ thêm vào giỏ hàng<i class="ti-heart"></i></a>
                                         </div>
                                     </div>
                                 </div>

@@ -11,7 +11,7 @@ namespace QLMP.DAL.Models
         }
 
         public string RoleId { get; set; } = null!;
-        public string RoleName { get; set; } = null!;
+        public string? RoleName { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
     }

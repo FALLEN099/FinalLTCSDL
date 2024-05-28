@@ -20,12 +20,36 @@ namespace QLMP.DAL
             var res = All.FirstOrDefault(c => c.MaLoaiSp == id);
             return res;
         }
-        public int Remove(int id)
+        public SingleRsp Remove(int categoryId)
         {
-            var m = base.All.FirstOrDefault(i => i.MaLoaiSp == id);
-            m = base.Delete(m);
-            return m.MaLoaiSp;
+            var res = new SingleRsp();
+            using (var context = new QuanLyMyPhamContext())
+            {
+                using var tran = context.Database.BeginTransaction();
+                try
+                {
+                    var category = context.LoaiSanPhams.Find(categoryId);
+                    if (category != null)
+                    {
+                        context.LoaiSanPhams.Remove(category);
+                        context.SaveChanges();
+                        tran.Commit();
+                        res.Data = category;
+                    }
+                    else
+                    {
+                        res.SetError("Category not found");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    res.SetError(ex.StackTrace);
+                }
+            }
+            return res;
         }
+
         public SingleRsp CreateCategory(LoaiSanPham loaiSanPham)
         {
             var res = new SingleRsp();

@@ -11,9 +11,9 @@ namespace QLMP.DAL.Models
         }
 
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
-        public virtual KhachHang User { get; set; } = null!;
-        public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
+        public virtual KhachHang? User { get; set; }
+        public virtual ICollection<CartItem> CartItems { get; set; }
     }
 }

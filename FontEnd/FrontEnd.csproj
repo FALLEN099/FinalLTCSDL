@@ -51,6 +51,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Content\css\styles.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content\css\styles.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\188 Aranoz shop DOC\fonts\fontawesome-webfont.svg" />
     <None Include="wwwroot\188 Aranoz shop DOC\img\Thumbs.db" />
     <None Include="wwwroot\188 Aranoz shop DOC\js\custom.js" />
@@ -385,7 +396,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\QLMP.BLL\QLMP.BLL.csproj" />
     <ProjectReference Include="..\QLMP.Common\QLMP.Common.csproj" />
+    <ProjectReference Include="..\QLMP.DAL\QLMP.DAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>

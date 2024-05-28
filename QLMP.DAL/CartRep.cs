@@ -35,15 +35,29 @@ namespace QLMP.DAL
                 using var tran = context.Database.BeginTransaction();
                 try
                 {
-                    var cartItem = new CartItem
+                    // Check if the product already exists in the cart
+                    var existingCartItem = context.CartItems
+                    .FirstOrDefault(ci => ci.CartId == cartId && ci.ProductId == productId);
+
+                    if (existingCartItem != null)
                     {
-                        CartId = cartId,
-                        ProductId = productId,
-                        Quantity = quantity
-                    };
-                    context.CartItems.Add(cartItem);
+                        // Product already exists in the cart, update the quantity
+                        existingCartItem.Quantity += quantity;
+                    }
+                    else
+                    {
+                        // Product does not exist in the cart, create a new cart item
+                        var cartItem = new CartItem
+                        {
+                            CartId = cartId,
+                            ProductId = productId,
+                            Quantity = quantity
+                        };
+                        context.CartItems.Add(cartItem);
+                        res.Data = cartItem;
+                    }
+
                     context.SaveChanges();
-                    res.Data = cartItem;
                     tran.Commit();
                 }
                 catch (Exception ex)
@@ -52,11 +66,12 @@ namespace QLMP.DAL
                     res.SetError(ex.StackTrace);
                 }
             }
-            
+
             return res;
         }
 
-        public SingleRsp PlaceOrder(int cartId)
+
+        public SingleRsp PlaceOrder(int userId)
         {
             var res = new SingleRsp();
             using (var context = new QuanLyMyPhamContext())
@@ -64,7 +79,13 @@ namespace QLMP.DAL
                 using var tran = context.Database.BeginTransaction();
                 try
                 {
-                    var cartItems = context.CartItems.Where(ci => ci.CartId == cartId).ToList();
+                    var cart = context.Carts.FirstOrDefault(c => c.UserId == userId);
+                    if (cart == null)
+                    {
+                        res.SetError("Cart not found for the user.");
+                        return res;
+                    }
+                    var cartItems = context.CartItems.Where(ci => ci.CartId == cart.Id).ToList();
                     if (!cartItems.Any())
                     {
                         res.SetError("Cart is empty.");
@@ -74,11 +95,9 @@ namespace QLMP.DAL
                     var h = new HoaDon();
 
 
-                    h.MaKh = context.Carts.FirstOrDefault(c=>c.Id== cartId).UserId;
+                    h.MaKh = cart.UserId/*context.Carts.FirstOrDefault(c=>c.Id== cart.Id).UserId*/;
                     h.NgayLapHd = DateTime.Now;
                     h.TongSl = cartItems.Sum(ci => ci.Quantity);
-                    
-
                     context.HoaDons.Add(h);
                     context.SaveChanges();
 
@@ -88,7 +107,7 @@ namespace QLMP.DAL
                             c.MaHoaDon = h.MaHoaDon;
                             c.MaSp = item.ProductId;
                             c.SoLuong = (short)item.Quantity;
-                            c.DonGia = (float?)context.SanPhams.First(sp => sp.MaSp == item.ProductId).Gia;
+                            c.DonGia = ((float?)context.SanPhams.First(sp => sp.MaSp == item.ProductId).Gia)* item.Quantity;
 
                         context.ChiTietHoaDons.Add(c);
                     }
@@ -108,13 +127,13 @@ namespace QLMP.DAL
             }
             return res;
         }
-        public SingleRsp GetCartById(int cartId)
+        public SingleRsp GetCartById(int userId)
         {
             var res = new SingleRsp();
             using (var context = new QuanLyMyPhamContext())
             {
                 var cart = context.Carts
-                    .Where(c => c.Id == cartId)
+                    .Where(c => c.UserId == userId)
                     .Select(c => new
                     {
                         c.Id,
@@ -170,13 +189,47 @@ namespace QLMP.DAL
             }
             return res;
         }
-        public SingleRsp GetOrderById(int orderId)
+        public SingleRsp GetOrderByOrderId(int orderId)
         {
             var res = new SingleRsp();
             using (var context = new QuanLyMyPhamContext())
             {
                 var order = context.HoaDons
                     .Where(o => o.MaHoaDon == orderId)
+                    .Select(o => new
+                    {
+                        o.MaHoaDon,
+                        o.MaKh,
+                        o.NgayLapHd,
+                        o.TongSl,
+                        OrderDetails = o.ChiTietHoaDons.Select(od => new
+                        {
+                            od.MaSp,
+                            od.SoLuong,
+                            od.DonGia,
+                            ProductName = od.MaSpNavigation.TenSp,
+                            CategoryName = od.MaSpNavigation.MaLoaiSpNavigation.TenLoaiSp
+                        }).ToList()
+                    }).FirstOrDefault();
+
+                if (order == null)
+                {
+                    res.SetError("Order not found.");
+                }
+                else
+                {
+                    res.Data = order;
+                }
+            }
+            return res;
+        }
+        public SingleRsp GetOrderById(int userId)
+        {
+            var res = new SingleRsp();
+            using (var context = new QuanLyMyPhamContext())
+            {
+                var order = context.HoaDons
+                    .Where(o => o.MaKh == userId)
                     .Select(o => new
                     {
                         o.MaHoaDon,
@@ -252,7 +305,65 @@ namespace QLMP.DAL
                     })
                     .ToList();
 
+            res.Data = statistics;
+        }
+            return res;
+        }
+        public SingleRsp GetMonthlySalesStatistics()
+        {
+            var res = new SingleRsp();
+            using (var context = new QuanLyMyPhamContext())
+            {
+                var statistics = context.HoaDons
+                    .Where(hd => hd.NgayLapHd.HasValue)
+                    .Select(hd => new
+                    {
+                        hd.NgayLapHd,
+                        ChiTietHoaDons = hd.ChiTietHoaDons.Select(cthd => new
+                        {
+                            cthd.SoLuong,
+                            DonGia = (double)(cthd.DonGia ?? 0)
+                        }).ToList()
+                    })
+                    .ToList()
+                    .GroupBy(hd => new
+                    {
+                        Year = hd.NgayLapHd.Value.Year,
+                        Month = hd.NgayLapHd.Value.Month
+                    })
+                    .Select(g => new
+                    {
+                        Year = g.Key.Year,
+                        Month = g.Key.Month,
+                        NumberOfOrders = g.Count(),
+                        TotalRevenue = g.Sum(hd => hd.ChiTietHoaDons.Sum(cthd => cthd.SoLuong * cthd.DonGia))
+                    })
+                    .OrderBy(s => s.Year)
+                    .ThenBy(s => s.Month)
+                    .ToList();
+
                 res.Data = statistics;
+            }
+            return res;
+        }
+        public SingleRsp GetRecentOrders()
+        {
+            int count = 5;
+            var res = new SingleRsp();
+            using (var context = new QuanLyMyPhamContext())
+            {
+                var recentOrders = context.HoaDons
+                    .OrderByDescending(o => o.NgayLapHd)
+                    .Take(count)
+                    .Select(o => new
+                    {
+                        o.MaHoaDon,
+                        KhachHang = o.MaKhNavigation.TenKh,
+                        o.NgayLapHd
+                    })
+                    .ToList();
+
+                res.Data = recentOrders;
             }
             return res;
         }

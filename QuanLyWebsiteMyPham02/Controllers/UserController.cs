@@ -11,6 +11,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using QLMP.BLL;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QLMP.Web.Controllers
 {
@@ -60,12 +61,14 @@ namespace QLMP.Web.Controllers
             return Ok(res);
         }
         [HttpGet("GetAllUser")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetAllUsersExceptAdmin()
         {
             var res = _userSvc.GetAllUsersExceptAdmin();
             return Ok(res);
         }
         [HttpGet("SeachByusername")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetUserByUsername(string username)
         {
             var user = _userSvc.GetUserByUserName(username);
@@ -76,6 +79,7 @@ namespace QLMP.Web.Controllers
             return Ok(user);
         }
         [HttpPut("UpdateById")]
+        [Authorize(Roles = "admin")]
         public IActionResult UpdateUser(int id, [FromBody] UserReq userReq)
         {
             if (userReq == null)
@@ -90,6 +94,7 @@ namespace QLMP.Web.Controllers
         }
 
         [HttpPut("UpdateByUsername")]
+        [Authorize(Roles = "admin")]
         public IActionResult UpdateUserByUsername(string username, [FromBody] UserReq userReq)
         {
             if (userReq == null)
@@ -102,6 +107,7 @@ namespace QLMP.Web.Controllers
             return Ok(res);
         }
         [HttpPut("UpdateUserRoleByUsername")]
+        [Authorize(Roles = "admin")]
         public IActionResult UpdateUserRoleByUsername(string username, [FromBody] string role)
         {
             if (string.IsNullOrEmpty(role))
@@ -114,20 +120,16 @@ namespace QLMP.Web.Controllers
         }
 
 
-        [HttpDelete("DeleteUserById/{id}")]
+        [HttpDelete("DeleteUserById")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteUserById(int id)
         {
-            try
-            {
-                _userSvc.DeleteUser(id);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+                var res =_userSvc.DeleteUser(id);
+                return Ok(res);
+            
         }
         [HttpDelete("DeleteByUsername")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteUserByUsername(string username)
         {
             try
@@ -152,7 +154,7 @@ namespace QLMP.Web.Controllers
                     
                     new Claim("UserName", user.UserName),
                     new Claim("Id", user.Id.ToString()),
-                    new Claim("Role", user.Role),
+                    new Claim(ClaimTypes.Role, user.Role),
                     new Claim("TokenId", Guid.NewGuid().ToString())
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(10),

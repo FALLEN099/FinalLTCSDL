@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QLMP.BLL;
 using QLMP.Common.Req;
@@ -7,6 +8,8 @@ using QLMP.DAL.Models;
 
 namespace QLMP.Web.Controllers
 {
+
+    [Authorize(Roles = "admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class KhachHangController : ControllerBase
@@ -17,27 +20,19 @@ namespace QLMP.Web.Controllers
             khachHangSvc = new KhachHangSvc();
         }
 
-        [HttpPost("GetById")]
+        [HttpGet("GetById")]
         public IActionResult GetKhachHangById( int id)
         {
             var res = khachHangSvc.Read(id);
             return Ok(res);
         }
 
-        [HttpPost("GetAll")]
+        [HttpGet("GetAll")]
         public IActionResult GetAllKhachHang()
         {
             var res = new SingleRsp();
             res.Data = khachHangSvc.All;
             return Ok(res);
-        }
-
-        [HttpPost("Create")]
-        public IActionResult CreateKhachHang([FromBody] KhachHangReq khachHangReq)
-        {
-            var res = khachHangSvc.CreateCustomer(khachHangReq);
-            res.Data = khachHangReq;
-            return Ok(res.Data);
         }
 
         [HttpPut("Update")]
@@ -47,12 +42,6 @@ namespace QLMP.Web.Controllers
             return Ok(res);
         }
 
-        [HttpDelete("DeleteById")]
-        public IActionResult DeleteKhachHangById(int id)
-        {
-            var res = khachHangSvc.Remove(id);
-            return Ok(res);
-        }
 
         [HttpPost("SearchByName")]
         public IActionResult SearchKhachHangByName([FromBody] SearchCateByName searchCateByName)

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QLMP.BLL;
 using QLMP.Common.Req;
@@ -31,6 +32,7 @@ namespace QLMP.Web.Controllers
             return Ok(res);
         }
         [HttpPost("Create")]
+        [Authorize(Roles = "admin")]
         public IActionResult Create([FromBody] LoaiSpReq loaiSpReq)
         {
             var res = new SingleRsp();
@@ -39,6 +41,7 @@ namespace QLMP.Web.Controllers
             return Ok(res);
         }
         [HttpPut("Update")]
+        [Authorize(Roles = "admin")]
         public IActionResult UpDate(int Id, LoaiSpReq loaiSpReq)
         {
             var res = loaiSpSvc.UpdateCategory(Id,loaiSpReq);
@@ -46,17 +49,11 @@ namespace QLMP.Web.Controllers
             return Ok(res);
         }
         [HttpDelete("DeletaById")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteById(int id)
         {
-            QuanLyMyPhamContext context = new QuanLyMyPhamContext();
-            var l = loaiSpSvc.Read(id);
-            if (l.Data != null)
-            {
-                context.Remove(l.Data);
-                context.SaveChanges();
-                return Ok(l);
-            }
-            return NotFound();
+            var res = loaiSpSvc.Remove(id);
+            return Ok(res);
         }
         [HttpPost("SeachByName")]
         public IActionResult SeachByName(SearchCateByName searchCateByName)

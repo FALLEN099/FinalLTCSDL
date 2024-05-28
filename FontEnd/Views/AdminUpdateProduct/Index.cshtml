@@ -1,42 +1,48 @@
 ﻿@model QLMP.Common.Req.SanPhamReq
-
+<link rel="stylesheet" href="@(Url.Content("~/css/styles.css"))" />
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Sản Phẩm</h1>
 
-<h4>SanPhamReq</h4>
+<h4>Index</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Index">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TenSp" class="control-label"></label>
-                <input asp-for="TenSp" class="form-control" />
-                <span asp-validation-for="TenSp" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Gia" class="control-label"></label>
-                <input asp-for="Gia" class="form-control" />
-                <span asp-validation-for="Gia" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaLoaiSp" class="control-label"></label>
-                <input asp-for="MaLoaiSp" class="form-control" />
-                <span asp-validation-for="MaLoaiSp" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HinhAnh" class="control-label"></label>
-                <input asp-for="HinhAnh" class="form-control" />
-                <span asp-validation-for="HinhAnh" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<div class="row container">
+    <table class="col-md-4">
+        <tbody>
+            <form asp-action="Index">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <table>
+                    <tr class="form-group">
+                        <td><label asp-for="TenSp" class="control-label">Tên sản phẩm: </label></td>
+                        <td><input asp-for="TenSp" class="form-control" /></td>
+                        <td><span asp-validation-for="TenSp" class="text-danger"></span></td>
+                    </tr>
+                    <tr class="form-group">
+                        <td><label asp-for="Gia" class="control-label">Giá</label></td>
+                        <td><input asp-for="Gia" class="form-control" /></td>
+                        <td><span asp-validation-for="Gia" class="text-danger"></span></td>
+                    </tr>
+                    <tr class="form-group">
+                        <td><label asp-for="MaLoaiSp" class="control-label"> Mã loại sản phẩm</label></td>
+                        <td><input asp-for="MaLoaiSp" class="form-control" /></td>
+                        <td><span asp-validation-for="MaLoaiSp" class="text-danger"></span></td>
+                    </tr>
+                    <tr class="form-group">
+                        <td><label asp-for="HinhAnh" class="control-label">Hình ảnh</label></td>
+                        <td><input asp-for="HinhAnh" class="form-control" /></td>
+                        <td><span asp-validation-for="HinhAnh" class="text-danger"></span></td>
+                    </tr>
+                    <tr class="form-group">
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </tr>
+                </table>
+            </form>
+        </tbody>
+    </table>
 </div>
 
 <div>

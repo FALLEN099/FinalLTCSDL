@@ -22,68 +22,41 @@ namespace FrontEnd.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            List<SanPhamVM> products = new List<SanPhamVM>();
-            HttpResponseMessage response = await _httpClient.GetAsync("SanPham/get-all");
+            List<HoaDonVM> hoaDons = new List<HoaDonVM>();
+            HttpResponseMessage response = await _httpClient.GetAsync("Cart/get-all-orders");
             if (response.IsSuccessStatusCode)
             {
                 var responseData = await response.Content.ReadAsStringAsync();
 
-                // Parse the JSON object
                 JObject jsonResponse = JObject.Parse(responseData);
 
-                // Check if the "data" property exists and if it is an array
                 if (jsonResponse["data"] != null && jsonResponse["data"].Type == JTokenType.Array)
                 {
-                    // Deserialize the array into a list of SanPhamVM
-                    products = jsonResponse["data"].ToObject<List<SanPhamVM>>();
+                    hoaDons = jsonResponse["data"].ToObject<List<HoaDonVM>>();
                 }
             }
 
-            return View(products);
+            return View(hoaDons);
         }
-
         [HttpGet]
-        public async Task<IActionResult> FilterByCategory(string categoryName)
+        public async Task<IActionResult> Detail(int id)
         {
-            List<SanPhamVM> products = new List<SanPhamVM>();
-            HttpResponseMessage response = await _httpClient.GetAsync("SanPham/get-all");
+            HoaDonVM hoaDonVM = null;
+            HttpResponseMessage response = await _httpClient.GetAsync($"Cart/get-order-by-orderid?orderId={id}");
             if (response.IsSuccessStatusCode)
             {
                 var responseData = await response.Content.ReadAsStringAsync();
 
-                // Deserialize directly into a list of SanPhamVM
-                products = JsonConvert.DeserializeObject<List<SanPhamVM>>(responseData);
-            }
-
-            // Filter products based on categoryName
-            List<SanPhamVM> filteredProducts = products.Where(p => p.TenLoaiSp != null && p.TenLoaiSp.Equals(categoryName)).ToList();
-            return View(filteredProducts); // Return the filtered result to the FilteredProducts view
-        }
-        [HttpGet]
-        public async Task<IActionResult> Search(string productName)
-        {
-            List<SanPhamVM> products = await GetAllProductsAsync();
-            List<SanPhamVM> searchedProducts = products.Where(p => p.TenSp != null && p.TenSp.ToLower().Contains(productName.ToLower())).ToList();
-            return View("Index", searchedProducts); // Return the searched result to the Index view
-        }
-
-        private async Task<List<SanPhamVM>> GetAllProductsAsync()
-        {
-            List<SanPhamVM> products = new List<SanPhamVM>();
-            HttpResponseMessage response = await _httpClient.GetAsync("SanPham/get-all");
-            if (response.IsSuccessStatusCode)
-            {
-                var responseData = await response.Content.ReadAsStringAsync();
-                // Parse the JSON object
                 JObject jsonResponse = JObject.Parse(responseData);
-                // Check if the "data" property exists and if it is an array
-                if (jsonResponse["data"] != null && jsonResponse["data"].Type == JTokenType.Array)
+
+                if (jsonResponse["data"] != null)
                 {
-                    // Deserialize the array into a list of SanPhamVM
-                    products = jsonResponse["data"].ToObject<List<SanPhamVM>>();
+                    hoaDonVM = jsonResponse["data"].ToObject<HoaDonVM>();
                 }
             }
-            return products;
+
+            return View(hoaDonVM); 
         }
+        
     }
 }

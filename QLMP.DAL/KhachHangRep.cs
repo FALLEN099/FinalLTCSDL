@@ -11,6 +11,7 @@ namespace QLMP.DAL
 {
     public class KhachHangRep : GenericRep<QuanLyMyPhamContext, KhachHang>
     {
+        private QuanLyMyPhamContext _context = new QuanLyMyPhamContext();
         public KhachHangRep()
         {
 
@@ -20,13 +21,7 @@ namespace QLMP.DAL
             var res = All.FirstOrDefault(c => c.MaKh == id);
             return res;
         }
-        public int Remove(int id)
-        {
-            var m = base.All.FirstOrDefault(i => i.MaKh == id);
-            m = base.Delete(m);
-            return m.MaKh;
-        }
-
+      
         public SingleRsp CreateCustomer(KhachHang khachHangg)
         {
             var res = new SingleRsp();

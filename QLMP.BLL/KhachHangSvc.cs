@@ -42,12 +42,7 @@ namespace QLMP.BLL
             return res;
         }
 
-        public  SingleRsp Remove(int id)
-        {
-            var res = new SingleRsp();
-            res.Data = _rep.Remove(id);
-            return res;
-        }
+     
 
         public SingleRsp CreateCustomer(KhachHangReq khachHangReq)
         {
@@ -63,15 +58,7 @@ namespace QLMP.BLL
 
         public SingleRsp UpdateCustomer(int Id,KhachHangReq khachHangReq)
         {
-            //var res = new SingleRsp();
-
-            //KhachHang kh = new KhachHang();
-            //kh.TenKh = khachHangReq.TenKh;
-            //kh.DiaChi = khachHangReq.DiaChi;
-            //kh.Email = khachHangReq.Email;
-            //kh.Sdt = khachHangReq.Sdt;
-            //res = khachHangRep.UpdateCustomer(kh);
-            //return res;
+            
             var res = new SingleRsp();
 
             // Kiểm tra khách hàng có tồn tại trong cơ sở dữ liệu hay không

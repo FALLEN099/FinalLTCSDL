@@ -44,9 +44,8 @@ namespace QLMP.BLL
         }
         public SingleRsp Remove(int id)
         {
-            var res = new SingleRsp();
-            res.Data = _rep.Remove(id);
-            return res;
+
+            return _rep.Remove(id);
 
         }
         public SingleRsp CreateCategory(LoaiSpReq loaiSpReq)

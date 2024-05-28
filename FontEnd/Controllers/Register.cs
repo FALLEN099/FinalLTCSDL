@@ -14,12 +14,16 @@ namespace FrontEnd.Controllers
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri("https://localhost:7279/api/");
         }
-        public IActionResult DangKy()
+        public IActionResult Index()
         {
             return View();
         }
+        //public IActionResult DangKy()
+        //{
+        //    return View();
+        //}
         [HttpPost]
-        public async Task<IActionResult> DangKy(UserReq uerreq)
+        public async Task<IActionResult> Index(UserReq uerreq)
         {
             var jsonContent = JsonConvert.SerializeObject(uerreq);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
@@ -28,7 +32,7 @@ namespace FrontEnd.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", "Home");
+                return Redirect("Login");
             }
             else
             {

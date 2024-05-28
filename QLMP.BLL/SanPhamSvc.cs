@@ -81,6 +81,11 @@ namespace QLMP.BLL
             }
             return res;
         }
+        public SingleRsp Remove(int id)
+        {
+            return sanPhamRep.Remove(id);
+
+        }
         public SingleRsp TimKiem(string Keyword)
         {
             var res = new SingleRsp();
@@ -123,6 +128,12 @@ namespace QLMP.BLL
             }
             res.Data = sanPhams;
             return res;
+        }
+
+        public List<SanPham> GetAllProduct()
+        {
+            var sanPhams = sanPhamRep.GetAllProduct();
+            return sanPhams;
         }
     }
 }

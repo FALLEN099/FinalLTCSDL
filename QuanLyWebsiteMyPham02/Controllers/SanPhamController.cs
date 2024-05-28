@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QLMP.BLL;
 using QLMP.Common.Req;
@@ -28,14 +29,13 @@ namespace QLMP.Web.Controllers
         {
             var res = new SingleRsp();
 
-            // Assuming sanPhamSvc.All returns IEnumerable<SanPham>
             var products = sanPhamSvc.All.Select(p => new
             {
                 MaSp=p.MaSp,
                 TenSp = p.TenSp,
                 Gia = p.Gia,
                 TenLoaiSp=p.MaLoaiSpNavigation.TenLoaiSp,
-                Image = p.HinhAnh // Assuming Image is a property representing the image
+                Image = p.HinhAnh 
             }).ToList();
 
             res.Data = products;
@@ -43,6 +43,7 @@ namespace QLMP.Web.Controllers
 
         }
         [HttpPut("Update-Product")]
+        [Authorize(Roles = "admin")]
         public IActionResult UpdateProduct(int Id,SanPhamReq sanPhamReq)
         {
             var res = sanPhamSvc.UpdateProduct(Id,sanPhamReq);
@@ -50,6 +51,7 @@ namespace QLMP.Web.Controllers
             return Ok(res);
         }
         [HttpPost("create-product")]
+        [Authorize(Roles = "admin")]
         public IActionResult CreateProduct([FromBody] SanPhamReq sanPhamReq)
         {
             var res = sanPhamSvc.CreateProduct(sanPhamReq);
@@ -77,19 +79,11 @@ namespace QLMP.Web.Controllers
             return Ok(res);
         }
         [HttpDelete("Delete-Product")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteProduct(int id)
         {
-            QuanLyMyPhamContext context = new QuanLyMyPhamContext();
-
-            var pr = sanPhamSvc.Read(id);
-            if (pr.Data != null)
-            {
-                context.Remove(pr.Data);
-                context.SaveChanges();
-                return Ok(pr);
-            }
-            else
-                return NotFound();
+            var res = sanPhamSvc.Remove(id);
+            return Ok(res);
         }
     }
 }

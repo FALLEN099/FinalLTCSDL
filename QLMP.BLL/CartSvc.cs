@@ -36,22 +36,26 @@ namespace QLMP.BLL
            
         }
 
-        public SingleRsp PlaceOrder(int cartId)
+        public SingleRsp PlaceOrder(int userId)
         {
-            return cartRep.PlaceOrder(cartId);
+            return cartRep.PlaceOrder(userId);
         }
-        public SingleRsp GetCartById(int cartId)
+        public SingleRsp GetCartById(int userId)
         {
-            return cartRep.GetCartById(cartId);
+            return cartRep.GetCartById(userId);
         }
 
         public SingleRsp RemoveProductFromCart(int cartItemId)
         {
             return cartRep.RemoveProductFromCart(cartItemId);
         }
-        public SingleRsp GetOrderById(int orderId)
+        public SingleRsp GetOrderById(int userId)
         {
-            return cartRep.GetOrderById(orderId);
+            return cartRep.GetOrderById(userId);
+        }
+        public SingleRsp GetOrderByOrderId(int orderId)
+        {
+            return cartRep.GetOrderByOrderId(orderId);
         }
         public SingleRsp GetAllOrders()
         {
@@ -60,6 +64,14 @@ namespace QLMP.BLL
         public SingleRsp GetSalesStatisticsByProductType()
         {
             return cartRep.GetSalesStatisticsByProductType();
+        }
+        public SingleRsp GetMonthlySalesStatistics()
+        {
+            return cartRep.GetMonthlySalesStatistics();
+        }
+        public SingleRsp GetRecentOrders()
+        {
+            return cartRep.GetRecentOrders();
         }
     }
 

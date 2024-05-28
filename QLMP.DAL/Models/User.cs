@@ -5,9 +5,14 @@ namespace QLMP.DAL.Models
 {
     public partial class User
     {
+        public User()
+        {
+            KhachHangs = new HashSet<KhachHang>();
+        }
+
         public int Id { get; set; }
-        public string UserName { get; set; } = null!;
-        public string PassWord { get; set; } = null!;
+        public string? UserName { get; set; }
+        public string? PassWord { get; set; }
         public string? FullName { get; set; }
         public string? Email { get; set; }
         public string? Phone { get; set; }
@@ -15,5 +20,6 @@ namespace QLMP.DAL.Models
         public string Role { get; set; } = null!;
 
         public virtual Role RoleNavigation { get; set; } = null!;
+        public virtual ICollection<KhachHang> KhachHangs { get; set; }
     }
 }
